@@ -6,10 +6,16 @@ module.exports = {
   theme: {
     extend: {
         fontFamily: {
-          poppins: ['Poppins-Regular'],
+          poppinsThin: ['Poppins-Thin'],
+          poppinsExtraLight: ['Poppins-ExtraLight'],
+          poppinsLight: ['Poppins-Light'],
+          poppinsRegular: ['Poppins-Regular'],
           poppinsMedium: ['Poppins-Medium'],
+          poppinsSemiBold: ['Poppins-SemiBold'],
           poppinsBold: ['Poppins-Bold'],
-          
+          poppinsExtraBold: ['Poppins-ExtraBold'],
+          poppinsBlack: ['Poppins-Black'],
+          poppinsBlackItalic: ['Poppins-BlackItalic'],
         }
     },
   },

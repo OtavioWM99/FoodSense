@@ -3,36 +3,57 @@ import { Ionicons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
-
+import { Dimensions } from 'react-native';
+import { RFValue } from "react-native-responsive-fontsize";
+import { Stack } from 'expo-router';
 
 export default function CardapioScreen() {
 
+  const { width, height } = Dimensions.get('window');
+  const [fontsLoaded] = useFonts({
+    'Poppins-Thin': require('../assets/fonts/Poppins-Thin.ttf'),
+    'Poppins-ExtraLight': require('../assets/fonts/Poppins-ExtraLight.ttf'),
+    'Poppins-Light': require('../assets/fonts/Poppins-Light.ttf'),
+    'Poppins-Regular': require('../assets/fonts/Poppins-Regular.ttf'),
+    'Poppins-Medium': require('../assets/fonts/Poppins-Medium.ttf'),
+    'Poppins-SemiBold': require('../assets/fonts/Poppins-SemiBold.ttf'),
+    'Poppins-Bold': require('../assets/fonts/Poppins-Bold.ttf'),
+    'Poppins-ExtraBold': require('../assets/fonts/Poppins-ExtraBold.ttf'),
+    'Poppins-Black': require('../assets/fonts/Poppins-Black.ttf'),
+    'Poppins-BlackItalic': require('../assets/fonts/Poppins-BlackItalic.ttf'),
+  });
+
+
   return (
+   
+
     <LinearGradient 
         colors={['#4ade80', '#14b8a6']}
         className="flex-1"
     >
-      <ScrollView contentContainerStyle={{ padding: 20 }}>
+      <ScrollView contentContainerStyle={{ padding: 1 }}>
 
         {/* Cabeçalho */}
-        <View className="items-end">
-          <TouchableOpacity>
-            <Ionicons name="person-circle-outline" size={30} color="black" />
-            <Text className="text-xs font-poppins">Meu perfil</Text>
+        <View className="pt-safe-offset-1 bg-white flex-row justify-end pr-6">
+          <TouchableOpacity className="items-center">
+            <Ionicons name="person-circle-outline" color="black" style={{ fontSize: RFValue(30) }} />
+            <Text style={{ fontSize: RFValue(10) }} className="font-poppinsMedium">Meu perfil</Text>
           </TouchableOpacity>
         </View>
 
         {/* Título */}
-        <Text className="text-4xl font-poppinsBold text-center text-white mt-4">
+        <Text style={{ fontSize: RFValue(20) }} className="font-poppinsBold text-center text-white mt-10 mb-2">
           Encontre opções para suas refeições diárias
         </Text>
 
-        <Text className="text-3xl font-poppinsSemiBold text-center text-white mt-10 mb-4">
+        <Text className="font-poppinsBold text-center text-white mt-10 mb-4"
+          style = {{ fontSize: RFValue(20) }}
+        >
           Seu cardápio personalizado
         </Text>
 
         {/* Grade de botões */}
-        <View className="flex-row flex-wrap justify-between gap-6 mt-4">
+        <View className="flex-row flex-wrap justify-between gap-6 mt-4 bg-slate-600">
           {[
             { label: 'Café da manhã', icon: 'cafe-outline' },
             { label: 'Almoço', icon: 'restaurant-outline' },
@@ -40,13 +61,13 @@ export default function CardapioScreen() {
             { label: 'Janta', icon: 'wine-outline' },
           ].map((item, index) => (
             <TouchableOpacity style={{
-                backgroundColor: '#D9D9D9',
+                backgroundColor: '#D9D9D9'
             }}
               key={index}
-              className="w-[48%] h-40 rounded-lg justify-center items-center shadow"
+              className="w-[44%] h-40 rounded-xl justify-center items-center shadow"
             >
-              <Ionicons name={item.icon} size={55} color="#000" />
-              <Text className="mt-2 font-medium font-poppins">{item.label}</Text>
+              <Ionicons name={item.icon} color="#000" style={{ fontSize: RFValue(40) }} />
+              <Text className="mt-2 font-poppinsMedium" style={{ fontSize: RFValue(12) }}>{item.label}</Text>
             </TouchableOpacity>
           ))}
         </View>

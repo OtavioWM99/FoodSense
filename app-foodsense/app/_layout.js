@@ -1,6 +1,8 @@
 import { Tabs } from 'expo-router';
+import { Stack } from 'expo-router';
 import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
+
 
 export default function RootLayout(){
     const [fontsLoaded] = useFonts({
@@ -9,8 +11,14 @@ export default function RootLayout(){
 
     });
 
+    if (!fontsLoaded) return null;
+
     return (
-        <Tabs>
+        <Tabs
+            screenOptions={{
+                headerShown: false, 
+            }}
+        >
             <Tabs.Screen name='home' />
         </Tabs>
     )
