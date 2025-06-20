@@ -5,7 +5,6 @@ import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
 import { Dimensions } from 'react-native';
 import { RFValue } from "react-native-responsive-fontsize";
-import { Stack } from 'expo-router';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'; //biblioteca size-matters para responsividade
 
 
@@ -39,7 +38,7 @@ export default function CardapioScreen() {
         <View className="pt-safe-offset-3 bg-white flex-row justify-end pr-6">
           <TouchableOpacity className="items-center">
             <Ionicons name="person-sharp" color="black" style={{ fontSize: moderateScale(30) }} />
-            <Text style={{ fontSize: moderateScale(10) }} className="font-poppinsMedium">Meu perfil</Text>
+            <Text style={{ fontSize: moderateScale(10.5) }} className="font-poppinsMedium"> Meu perfil</Text>
           </TouchableOpacity>
         </View>
 
@@ -51,7 +50,7 @@ export default function CardapioScreen() {
           Encontre opções para suas refeições diárias
         </Text>
 
-        <Text className="font-poppinsSemiBold text-center text-white"
+        <Text className="font-poppinsMedium text-center text-white"
           style = {{ 
             fontSize: moderateScale(18.5),
             marginTop: verticalScale(25),
@@ -65,7 +64,7 @@ export default function CardapioScreen() {
             { label: 'Café da manhã', icon: 'cafe-outline' },
             { label: 'Almoço', icon: 'restaurant-outline' },
             { label: 'Lanches', icon: 'fast-food-outline' },
-            { label: 'Janta', icon: 'wine-outline' },
+            { label: ' Jantar', icon: 'wine-outline' },
           ].map((item, index) => (
             <TouchableOpacity style={{
                 backgroundColor: '#D9D9D9',
@@ -88,7 +87,7 @@ export default function CardapioScreen() {
         </View>
 
         {/* Botão Personalizar */}
-        <TouchableOpacity className="rounded-2xl flex-row items-center justify-center shadow" style={{
+        <TouchableOpacity className="rounded-full flex-row items-center justify-center shadow" style={{
             backgroundColor:'#D9D9D9',
             padding: moderateScale(10),
             marginTop: verticalScale(35),
@@ -100,7 +99,7 @@ export default function CardapioScreen() {
         </TouchableOpacity>
 
         {/* Botão Mudar preferências */}
-        <TouchableOpacity className="rounded-2xl flex-row items-center justify-center shadow" 
+        <TouchableOpacity className="rounded-full flex-row items-center justify-center shadow" 
           style={{
             backgroundColor:'#D9D9D9',
             padding: moderateScale(10),
@@ -109,9 +108,7 @@ export default function CardapioScreen() {
             width: scale(300)
           }}> 
           <Ionicons name="person-outline" style={{ fontSize:  moderateScale(23) }} color="black" />
-          <Text className="ml-2 font-poppinsMedium" style={{ fontSize:  moderateScale(12) }}>
-            Mudar intolerâncias ou preferências
-          </Text>
+          <Text className="ml-2 font-poppinsMedium" style={{ fontSize:  moderateScale(12) }}>Mudar intolerâncias ou preferências</Text>
         </TouchableOpacity>
       </ScrollView>
 

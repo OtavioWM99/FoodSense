@@ -7,6 +7,9 @@ node_modules/
 .expo/
 dist/
 web-build/
+build/
+android/
+ios/
 expo-env.d.ts
 
 # Native
@@ -35,3 +38,8 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# Cache do Metro bundler e Babel
+.cache/
+babel-cache/
+metro-cache/
