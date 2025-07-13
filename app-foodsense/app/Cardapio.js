@@ -4,7 +4,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
 import { Dimensions } from 'react-native';
-import { RFValue } from "react-native-responsive-fontsize";
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'; //biblioteca size-matters para responsividade
 
 
@@ -74,6 +73,7 @@ export default function CardapioScreen() {
               }}
               key={index}
               className="rounded-3xl justify-center items-center shadow"
+              activeOpacity={0.7}
             >
               <Ionicons name={item.icon} color="#000" style={{ fontSize: moderateScale(50) }} />
               <Text className="font-poppinsMedium" style={{ 
@@ -87,7 +87,9 @@ export default function CardapioScreen() {
         </View>
 
         {/* Botão Personalizar */}
-        <TouchableOpacity className="rounded-full flex-row items-center justify-center shadow" style={{
+        <TouchableOpacity 
+            activeOpacity={0.7}
+            className="rounded-full flex-row items-center justify-center shadow" style={{
             backgroundColor:'#D9D9D9',
             padding: moderateScale(10),
             marginTop: verticalScale(35),
@@ -99,7 +101,9 @@ export default function CardapioScreen() {
         </TouchableOpacity>
 
         {/* Botão Mudar preferências */}
-        <TouchableOpacity className="rounded-full flex-row items-center justify-center shadow" 
+        <TouchableOpacity 
+          activeOpacity={0.7}
+          className="rounded-full flex-row items-center justify-center shadow" 
           style={{
             backgroundColor:'#D9D9D9',
             padding: moderateScale(10),

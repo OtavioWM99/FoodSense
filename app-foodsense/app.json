@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "app-foodsense",
+    "name": "FoodSense",
     "slug": "app-foodsense",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -19,18 +19,35 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#000000"
+        "foregroundImage": "./assets/adaptive-icon.png"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.appfoodsense"
+      "package": "com.anonymous.appfoodsense",
+      "splash": {
+        "image": "./assets/splash.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#ffffff"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-router",
-      "expo-font"
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Poppins-Light.ttf",
+            "./assets/fonts/Poppins-Regular.ttf",
+            "./assets/fonts/Poppins-Medium.ttf",
+            "./assets/fonts/Poppins-SemiBold.ttf",
+            "./assets/fonts/Poppins-Bold.ttf",
+            "./assets/fonts/Poppins-ExtraBold.ttf",
+            "./assets/fonts/Poppins-Black.ttf"
+          ]
+        }
+      ]
     ]
   }
 }
