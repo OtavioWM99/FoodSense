@@ -2,6 +2,7 @@ import { Tabs } from 'expo-router';
 import { useFonts } from 'expo-font';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useEffect } from 'react';
+import Header from '../../src/components/Header';
 
 
 export default function RootLayout(){
@@ -17,10 +18,12 @@ export default function RootLayout(){
         <SafeAreaProvider>
             <Tabs
                 screenOptions={{
-                    headerShown: false, 
+                    header: () => <Header />,
                 }}
             >
                 <Tabs.Screen name='home' />
+                <Tabs.Screen name='cardapio' />
+                <Tabs.Screen name='receitas' />
             </Tabs>
         </SafeAreaProvider>
     )

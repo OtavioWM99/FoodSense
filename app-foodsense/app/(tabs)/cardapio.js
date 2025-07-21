@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'; //biblioteca size-matters para responsividade
 import { shadowStyle } from '../../src/components/Shadow';
-import MeuPerfilButton from '../../src/components/MeuPerfilButton';
 
 
 export default function CardapioScreen() {
@@ -32,11 +31,6 @@ export default function CardapioScreen() {
           className="flex-1"
       >
         <ScrollView showsVerticalScrollIndicator={false}>
-          {/* Cabeçalho */}
-          <View className=" bg-white flex-row justify-end pr-6">
-            <MeuPerfilButton />
-          </View>
-
           {/* Título */}
           <Text style={{ 
               fontSize: moderateScale(20),
@@ -85,22 +79,6 @@ export default function CardapioScreen() {
             ))}
           </View>
 
-          {/* Botão Personalizar */}
-          <TouchableOpacity 
-              activeOpacity={0.7}
-              className="rounded-full flex-row items-center justify-center shadow" style={[
-              shadowStyle.shadow, 
-              {
-              backgroundColor:'#D9D9D9',
-              padding: moderateScale(10),
-              marginTop: verticalScale(35),
-              marginLeft: scale (25),
-              width: scale(300),
-            }]}>
-            <Ionicons name="create-outline" style={{ fontSize:  moderateScale(25) }} color="black" />
-            <Text className="ml-2 font-poppinsMedium" style={{ fontSize:  moderateScale(14) }}>Personalizar refeições</Text>
-          </TouchableOpacity>
-
           {/* Botão Mudar preferências */}
           <TouchableOpacity 
             activeOpacity={0.7}
@@ -110,7 +88,7 @@ export default function CardapioScreen() {
               {
               backgroundColor:'#D9D9D9',
               padding: moderateScale(10),
-              marginTop: verticalScale(15),
+              marginTop: verticalScale(25),
               marginLeft: scale (25),
               width: scale(300), 
             }]}> 

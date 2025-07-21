@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'; //biblioteca size-matters para responsividade
 import { shadowStyle } from '../../src/components/Shadow';
-import MeuPerfilButton from '../../src/components/MeuPerfilButton';
 
 
 export default function ReceitasScreen() {
@@ -32,11 +31,6 @@ export default function ReceitasScreen() {
           className="flex-1"
       >
         <ScrollView showsVerticalScrollIndicator={false}>
-          {/* Cabeçalho */}
-          <View className=" bg-white flex-row justify-end pr-6">
-            <MeuPerfilButton />
-          </View>
-
           {/* Título */}
           <Text style={{ 
               fontSize: moderateScale(20),
