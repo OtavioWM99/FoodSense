@@ -5,6 +5,7 @@ import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'; //biblioteca size-matters para responsividade
+import { shadowStyle } from '../../src/components/Shadow';
 
 
 export default function CardapioScreen() {
@@ -21,20 +22,6 @@ export default function CardapioScreen() {
     'Poppins-Black': require('../../assets/fonts/Poppins-Black.ttf'),
     'Poppins-BlackItalic': require('../../assets/fonts/Poppins-BlackItalic.ttf'),
   });
-
-  const shadowStyle = {
-    // iOS
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
-    
-    // Android
-    elevation: 6,
-  };
 
   return (
 
@@ -76,13 +63,15 @@ export default function CardapioScreen() {
               { label: 'Lanches', icon: 'fast-food-outline' },
               { label: ' Jantar', icon: 'wine-outline' },
             ].map((item, index) => (
-              <TouchableOpacity style={{
+              <TouchableOpacity style={[
+                  shadowStyle.shadow,
+                  {
                   backgroundColor: '#D9D9D9',
                   width: scale(140),
                   height: verticalScale(120),
                   marginTop: moderateScale(20),
-                  ...shadowStyle
-                }}
+                  }
+                ]}
                 key={index}
                 className="rounded-3xl justify-center items-center shadow"
                 activeOpacity={0.7}
@@ -101,14 +90,15 @@ export default function CardapioScreen() {
           {/* Botão Personalizar */}
           <TouchableOpacity 
               activeOpacity={0.7}
-              className="rounded-full flex-row items-center justify-center shadow" style={{
+              className="rounded-full flex-row items-center justify-center shadow" style={[
+              shadowStyle.shadow, 
+              {
               backgroundColor:'#D9D9D9',
               padding: moderateScale(10),
               marginTop: verticalScale(35),
               marginLeft: scale (25),
               width: scale(300),
-              ...shadowStyle
-            }}>
+            }]}>
             <Ionicons name="create-outline" style={{ fontSize:  moderateScale(25) }} color="black" />
             <Text className="ml-2 font-poppinsMedium" style={{ fontSize:  moderateScale(14) }}>Personalizar refeições</Text>
           </TouchableOpacity>
@@ -117,14 +107,15 @@ export default function CardapioScreen() {
           <TouchableOpacity 
             activeOpacity={0.7}
             className="rounded-full flex-row items-center justify-center shadow" 
-            style={{
+            style={[
+              shadowStyle.shadow, 
+              {
               backgroundColor:'#D9D9D9',
               padding: moderateScale(10),
               marginTop: verticalScale(15),
               marginLeft: scale (25),
               width: scale(300), 
-              ...shadowStyle
-            }}> 
+            }]}> 
             <Ionicons name="person-outline" style={{ fontSize:  moderateScale(23) }} color="black" />
             <Text className="ml-2 font-poppinsMedium" style={{ fontSize:  moderateScale(12) }}>Mudar intolerâncias ou preferências</Text>
           </TouchableOpacity>

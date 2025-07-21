@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { shadowStyle } from '../../src/components/Shadow';
 
 export default function Cadastro() {
   const router = useRouter();
@@ -11,20 +12,6 @@ export default function Cadastro() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
-
-  const shadowStyle = {
-    // iOS
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
-    
-    // Android
-    elevation: 6,
-  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -86,7 +73,7 @@ export default function Cadastro() {
           />
 
           <TouchableOpacity
-            style = {{ marginTop: verticalScale(20), width: scale(250), height: moderateScale(40), backgroundColor: "#949494", marginBottom: verticalScale(12), ...shadowStyle }}
+            style = {[shadowStyle.shadow, { marginTop: verticalScale(20), width: scale(250), height: moderateScale(40), backgroundColor: "#949494", marginBottom: verticalScale(12) }]}
             className="rounded-full items-center justify-center"
             onPress={() => router.push('/(auth)/infoCadastro')}
             activeOpacity={0.7}
@@ -95,7 +82,7 @@ export default function Cadastro() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style = {{ width: scale(250), height: moderateScale(40), backgroundColor: "#C2C2C2", ...shadowStyle }}
+            style = {[shadowStyle.shadow, { width: scale(250), height: moderateScale(40), backgroundColor: "#C2C2C2" }]}
             className="rounded-full items-center justify-center"
             onPress={() => router.back()}
             activeOpacity={0.7}

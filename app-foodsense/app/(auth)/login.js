@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'; //biblioteca size-matters para responsividade
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { shadowStyle } from '../../src/components/Shadow';
 
 export default function LoginScreen() {
     const [email, setEmail] = useState('');
@@ -16,20 +17,6 @@ export default function LoginScreen() {
 
     const handleVoltar = () => {
         router.back();
-    };
-
-    const shadowStyle = {
-        // iOS
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.15,
-        shadowRadius: 6,
-      
-        // Android
-        elevation: 6,
     };
 
     return (
@@ -78,7 +65,7 @@ export default function LoginScreen() {
                     }}>
 
                     {/* Botão Continuar */}
-                    <TouchableOpacity style={{ width: scale(250), height: moderateScale(40), backgroundColor: "#949494", marginBottom: verticalScale(12), ...shadowStyle }}
+                    <TouchableOpacity style={[shadowStyle.shadow, { width: scale(250), height: moderateScale(40), backgroundColor: "#949494", marginBottom: verticalScale(12) }]}
                         onPress={handleLogin}
                         className="rounded-full items-center justify-center"
                         activeOpacity={0.7}
@@ -87,7 +74,7 @@ export default function LoginScreen() {
                     </TouchableOpacity>
 
                     {/* Botão Voltar */}
-                    <TouchableOpacity style={{ width: scale(250), height: moderateScale(40), backgroundColor: "#C2C2C2", ...shadowStyle }}
+                    <TouchableOpacity style={[shadowStyle.shadow, { width: scale(250), height: moderateScale(40), backgroundColor: "#C2C2C2" }]}
                         onPress={handleVoltar}
                         className="rounded-full items-center justify-center"
                         activeOpacity={0.7}
