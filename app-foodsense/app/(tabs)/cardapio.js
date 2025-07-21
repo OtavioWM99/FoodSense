@@ -30,7 +30,7 @@ export default function CardapioScreen() {
           colors={['#4ade80', '#14b8a6']}
           className="flex-1"
       >
-        <ScrollView contentContainerStyle={{ padding: 1 }} showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false}>
           {/* Cabeçalho */}
           <View className=" bg-white flex-row justify-end pr-6">
             <TouchableOpacity className="items-center">
