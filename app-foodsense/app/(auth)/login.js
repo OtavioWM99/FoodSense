@@ -4,7 +4,8 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'; //biblioteca size-matters para responsividade
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { shadowStyle } from '../../src/components/Shadow';
+import ContinuarButton from '../../src/components/ContinuarButton';
+import VoltarButton from '../../src/components/VoltarButton';
 
 export default function LoginScreen() {
     const [email, setEmail] = useState('');
@@ -64,23 +65,9 @@ export default function LoginScreen() {
                         marginTop: verticalScale(40)
                     }}>
 
-                    {/* Botão Continuar */}
-                    <TouchableOpacity style={[shadowStyle.shadow, { width: scale(250), height: moderateScale(40), backgroundColor: "#949494", marginBottom: verticalScale(12) }]}
-                        onPress={handleLogin}
-                        className="rounded-full items-center justify-center"
-                        activeOpacity={0.7}
-                    >
-                    <Text className="text-white font-poppinsMedium" style={{ fontSize: moderateScale(14) }}>Continuar</Text>
-                    </TouchableOpacity>
+                    <ContinuarButton onPress={handleLogin} />
+                    <VoltarButton onPress={handleVoltar} />
 
-                    {/* Botão Voltar */}
-                    <TouchableOpacity style={[shadowStyle.shadow, { width: scale(250), height: moderateScale(40), backgroundColor: "#C2C2C2" }]}
-                        onPress={handleVoltar}
-                        className="rounded-full items-center justify-center"
-                        activeOpacity={0.7}
-                    >
-                    <Text className="text-white font-poppinsMedium" style={{ fontSize: moderateScale(14) }}>Voltar</Text>
-                    </TouchableOpacity>
                 </View>
 
             </LinearGradient>

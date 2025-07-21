@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { shadowStyle } from '../../src/components/Shadow';
+import ContinuarButton from '../../src/components/ContinuarButton';
+import VoltarButton from '../../src/components/VoltarButton';
 
 export default function Cadastro() {
   const router = useRouter();
@@ -72,23 +73,9 @@ export default function Cadastro() {
             onChangeText={setConfirmarSenha}
           />
 
-          <TouchableOpacity
-            style = {[shadowStyle.shadow, { marginTop: verticalScale(20), width: scale(250), height: moderateScale(40), backgroundColor: "#949494", marginBottom: verticalScale(12) }]}
-            className="rounded-full items-center justify-center"
-            onPress={() => router.push('/(auth)/infoCadastro')}
-            activeOpacity={0.7}
-          >
-            <Text className="text-center text-white font-poppinsMedium" style={{ fontSize: moderateScale(14) }}>Continuar</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style = {[shadowStyle.shadow, { width: scale(250), height: moderateScale(40), backgroundColor: "#C2C2C2" }]}
-            className="rounded-full items-center justify-center"
-            onPress={() => router.back()}
-            activeOpacity={0.7}
-          >
-            <Text className="text-center text-white font-poppinsMedium" style={{ fontSize: moderateScale(14) }}>Voltar</Text>
-          </TouchableOpacity>
+          <ContinuarButton onPress={() => router.push('/(auth)/infoCadastro')} />
+          <VoltarButton onPress={() => router.back()} />
+          
         </ScrollView>
       </LinearGradient>
     </SafeAreaView>

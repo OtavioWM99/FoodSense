@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'; //biblioteca size-matters para responsividade
 import { shadowStyle } from '../../src/components/Shadow';
+import MeuPerfilButton from '../../src/components/MeuPerfilButton';
 
 
 export default function ReceitasScreen() {
@@ -33,10 +34,7 @@ export default function ReceitasScreen() {
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* Cabeçalho */}
           <View className=" bg-white flex-row justify-end pr-6">
-            <TouchableOpacity className="items-center">
-              <Ionicons name="person-sharp" color="black" style={{ fontSize: moderateScale(30) }} />
-              <Text style={{ fontSize: moderateScale(10.5) }} className="font-poppinsMedium"> Meu perfil</Text>
-            </TouchableOpacity>
+            <MeuPerfilButton />
           </View>
 
           {/* Título */}
