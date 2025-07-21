@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useState } from 'react';
@@ -16,6 +16,20 @@ export default function LoginScreen() {
 
     const handleVoltar = () => {
         router.back();
+    };
+
+    const shadowStyle = {
+        // iOS
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.15,
+        shadowRadius: 6,
+      
+        // Android
+        elevation: 6,
     };
 
     return (
@@ -64,7 +78,7 @@ export default function LoginScreen() {
                     }}>
 
                     {/* Botão Continuar */}
-                    <TouchableOpacity style={{ width: scale(250), height: moderateScale(40), backgroundColor: "#949494", marginBottom: verticalScale(12) }}
+                    <TouchableOpacity style={{ width: scale(250), height: moderateScale(40), backgroundColor: "#949494", marginBottom: verticalScale(12), ...shadowStyle }}
                         onPress={handleLogin}
                         className="rounded-full items-center justify-center"
                         activeOpacity={0.7}
@@ -73,7 +87,7 @@ export default function LoginScreen() {
                     </TouchableOpacity>
 
                     {/* Botão Voltar */}
-                    <TouchableOpacity style={{ width: scale(250), height: moderateScale(40), backgroundColor: "#C2C2C2" }}
+                    <TouchableOpacity style={{ width: scale(250), height: moderateScale(40), backgroundColor: "#C2C2C2", ...shadowStyle }}
                         onPress={handleVoltar}
                         className="rounded-full items-center justify-center"
                         activeOpacity={0.7}

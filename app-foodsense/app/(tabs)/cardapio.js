@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import { Ionicons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+import { View, Text, TouchableOpacity, ScrollView, Platform } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
@@ -22,6 +22,19 @@ export default function CardapioScreen() {
     'Poppins-BlackItalic': require('../../assets/fonts/Poppins-BlackItalic.ttf'),
   });
 
+  const shadowStyle = {
+    // iOS
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    
+    // Android
+    elevation: 6,
+  };
 
   return (
 
@@ -67,7 +80,8 @@ export default function CardapioScreen() {
                   backgroundColor: '#D9D9D9',
                   width: scale(140),
                   height: verticalScale(120),
-                  marginTop: moderateScale(20)
+                  marginTop: moderateScale(20),
+                  ...shadowStyle
                 }}
                 key={index}
                 className="rounded-3xl justify-center items-center shadow"
@@ -76,7 +90,7 @@ export default function CardapioScreen() {
                 <Ionicons name={item.icon} color="#000" style={{ fontSize: moderateScale(50) }} />
                 <Text className="font-poppinsMedium" style={{ 
                     fontSize: moderateScale(14),
-                    marginTop: moderateScale(5)
+                    marginTop: moderateScale(5),
                   }}>
                   {item.label}
                 </Text>
@@ -92,7 +106,8 @@ export default function CardapioScreen() {
               padding: moderateScale(10),
               marginTop: verticalScale(35),
               marginLeft: scale (25),
-              width: scale(300)
+              width: scale(300),
+              ...shadowStyle
             }}>
             <Ionicons name="create-outline" style={{ fontSize:  moderateScale(25) }} color="black" />
             <Text className="ml-2 font-poppinsMedium" style={{ fontSize:  moderateScale(14) }}>Personalizar refeições</Text>
@@ -107,7 +122,8 @@ export default function CardapioScreen() {
               padding: moderateScale(10),
               marginTop: verticalScale(15),
               marginLeft: scale (25),
-              width: scale(300)
+              width: scale(300), 
+              ...shadowStyle
             }}> 
             <Ionicons name="person-outline" style={{ fontSize:  moderateScale(23) }} color="black" />
             <Text className="ml-2 font-poppinsMedium" style={{ fontSize:  moderateScale(12) }}>Mudar intolerâncias ou preferências</Text>

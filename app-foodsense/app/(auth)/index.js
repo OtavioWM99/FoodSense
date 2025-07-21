@@ -1,10 +1,24 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'; //biblioteca size-matters para responsividade
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function WelcomeScreen() {
+    const shadowStyle = {
+        // iOS
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.15,
+        shadowRadius: 6,
+      
+        // Android
+        elevation: 6,
+    };
+
     return(
         <SafeAreaView style={{ flex: 1 }}>
 
@@ -36,7 +50,8 @@ export default function WelcomeScreen() {
                         backgroundColor: "#949494",
                         padding: moderateScale(8),
                         width: scale(200),
-                        marginTop: moderateScale(4)
+                        marginTop: moderateScale(4),
+                        ...shadowStyle
                     }}
                 >
                     <Text className="text-white font-poppinsMedium" style={{ fontSize: moderateScale(16) }}>Entrar</Text>
@@ -57,7 +72,8 @@ export default function WelcomeScreen() {
                             backgroundColor: "#949494",
                             padding: moderateScale(8),
                             width: scale(200),
-                            marginTop: moderateScale(4)
+                            marginTop: moderateScale(4),
+                            ...shadowStyle
                         }}
                     >
                         <Text className="text-white font-poppinsMedium" style={{ fontSize: moderateScale(16) }}>Crie sua conta</Text>

@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Platform } from 'react-native';
 import { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
@@ -8,6 +8,21 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function InfoCadastro() {
   const router = useRouter();
   const [info, setInfo] = useState('');
+
+  
+  const shadowStyle = {
+    // iOS
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+
+    // Android
+    elevation: 6,
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -45,7 +60,7 @@ export default function InfoCadastro() {
               </View>
 
               <TouchableOpacity
-                style = {{ marginTop: verticalScale(20), width: scale(250), height: moderateScale(40), backgroundColor: "#949494", marginBottom: verticalScale(12) }}
+                style = {{ marginTop: verticalScale(20), width: scale(250), height: moderateScale(40), backgroundColor: "#949494", marginBottom: verticalScale(12), ...shadowStyle }}
                 className="rounded-full items-center justify-center"
                 onPress={() => router.replace('/home')}
                 activeOpacity={0.7}
@@ -54,7 +69,7 @@ export default function InfoCadastro() {
               </TouchableOpacity>
 
               <TouchableOpacity
-                style = {{ width: scale(250), height: moderateScale(40), backgroundColor: "#C2C2C2" }}
+                style = {{ width: scale(250), height: moderateScale(40), backgroundColor: "#C2C2C2", ...shadowStyle }}
                 className="rounded-full items-center justify-center"
                 onPress={() => router.back()}
                 activeOpacity={0.7}
