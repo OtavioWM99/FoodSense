@@ -15,8 +15,8 @@ export default function AuthLayout() {
     <SafeAreaProvider>
       <Stack
         screenOptions={{
-        headerShown: false,
-      }}
+          headerShown: false,
+        }}
       />
     </SafeAreaProvider>
   )

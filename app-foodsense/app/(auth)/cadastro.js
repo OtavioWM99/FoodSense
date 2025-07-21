@@ -16,7 +16,7 @@ export default function Cadastro() {
     <SafeAreaView style={{ flex: 1 }}>
       <LinearGradient
         colors={['#4ade80', '#14b8a6']}
-        className="flex-1 justify-center items-center px-8"
+        className="flex-1 justify-center items-center"
       >
         <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
           <Text className="text-white text-center font-poppinsBold" style={{
@@ -74,14 +74,14 @@ export default function Cadastro() {
           <TouchableOpacity
             style = {{ marginTop: verticalScale(20), width: scale(250), height: moderateScale(40), backgroundColor: "#949494", marginBottom: verticalScale(12) }}
             className="rounded-full items-center justify-center"
-            onPress={() => router.push('/auth/infoCadastro')}
+            onPress={() => router.push('/(auth)/infoCadastro')}
             activeOpacity={0.7}
           >
             <Text className="text-center text-white font-poppinsMedium" style={{ fontSize: moderateScale(14) }}>Continuar</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-          style = {{ width: scale(250), height: moderateScale(40), backgroundColor: "#C2C2C2" }}
+            style = {{ width: scale(250), height: moderateScale(40), backgroundColor: "#C2C2C2" }}
             className="rounded-full items-center justify-center"
             onPress={() => router.back()}
             activeOpacity={0.7}
