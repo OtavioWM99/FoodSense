@@ -5,7 +5,7 @@ import NotificationButton from '../NotificationButton';
 
 const Header = () => {
   return (
-    <View className="bg-white flex-row pr-6 pl-4 justify-between">
+    <View style={{ justifyContent: 'space-between', paddingRight: 20, paddingLeft: 20, backgroudColor: 'white', flexDirection: 'row' }}>
       <NotificationButton />
       <MeuPerfilButton />
     </View>

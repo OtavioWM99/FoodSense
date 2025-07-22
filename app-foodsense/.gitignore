@@ -43,3 +43,6 @@ yarn-error.*
 .cache/
 babel-cache/
 metro-cache/
+
+#Images
+imagens-gemini-cli/

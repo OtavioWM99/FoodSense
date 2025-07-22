@@ -12,15 +12,16 @@ const VoltarButton = ({ onPress }) => {
           width: scale(250),
           height: moderateScale(40),
           backgroundColor: '#C2C2C2',
+          borderRadius: moderateScale(24),
+          alignItems: 'center',
+          justifyContent: 'center',
         },
       ]}
-      className="rounded-full items-center justify-center"
       onPress={onPress}
       activeOpacity={0.7}
     >
       <Text
-        className="text-center text-white font-poppinsMedium"
-        style={{ fontSize: moderateScale(14) }}
+        style={{ fontSize: moderateScale(14), textAlign: 'center', color: 'white', fontFamily: 'Poppins-Medium' }}
       >
         Voltar
       </Text>

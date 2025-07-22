@@ -12,27 +12,31 @@ export default function WelcomeScreen() {
 
             <LinearGradient
                 colors={['#4ade80', '#14b8a6']}
-                className="flex-1 justify-center items-center px-8"
+                style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: moderateScale(20) }}
             >
              {/* Título */}
-             <Text className="font-poppinsBold text-white text-center"
+             <Text
              style={{
                 fontSize: moderateScale(28),
                 marginTop: verticalScale(-20),
-                marginBottom: verticalScale(40)
+                marginBottom: verticalScale(40),
+                fontFamily: 'Poppins-Bold',
+                color: 'white',
+                textAlign: 'center',
              }}
              >
                 Entre no FoodSense
              </Text>
             {/* Bloco - Já tem conta */}
-            <View className="items-center">
-                <Text className="text-white font-poppinsSemiBold"  style={{
+            <View style={{ alignItems: 'center'}}>
+                <Text   style={{
                         fontSize: moderateScale(20),
+                        fontFamily: 'Poppins-SemiBold',
+                        color: 'white',
                     }}>Já tem uma conta? 
                 </Text>
                  <TouchableOpacity
                     onPress={() => router.push('/(auth)/login')}
-                    className="justify-center items-center rounded-full"
                     activeOpacity={0.7}
                     style={[
                         shadowStyle.shadow,
@@ -41,22 +45,26 @@ export default function WelcomeScreen() {
                         padding: moderateScale(8),
                         width: scale(200),
                         marginTop: moderateScale(4),
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: moderateScale(24),
                         }
                     ]}
                 >
-                    <Text className="text-white font-poppinsMedium" style={{ fontSize: moderateScale(16) }}>Entrar</Text>
+                    <Text style={{ fontSize: moderateScale(16), color: 'white', fontFamily: 'Poppins-Medium' }}>Entrar</Text>
                 </TouchableOpacity>
             </View>
 
             {/* Bloco - Novo usuário */}
-              <View className="items-center" style={{ marginTop: verticalScale(25) }}>
-                   <Text className="text-white font-poppinsSemiBold"  style={{
+              <View style={{ marginTop: verticalScale(25), alignItems: 'center' }}>
+                   <Text style={{
                             fontSize: moderateScale(20),
+                            fontFamily: 'Poppins-SemiBold',
+                            color: 'white',
                         }}>É usuário novo? 
                     </Text>
                     <TouchableOpacity
                         onPress={() => router.push('/(auth)/cadastro')}
-                        className="justify-center items-center rounded-full"
                         activeOpacity={0.7}
                         style={[
                             shadowStyle.shadow, 
@@ -65,10 +73,13 @@ export default function WelcomeScreen() {
                             padding: moderateScale(8),
                             width: scale(200),
                             marginTop: moderateScale(4),
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            borderRadius: moderateScale(24),
                             }
                         ]}
                     >
-                        <Text className="text-white font-poppinsMedium" style={{ fontSize: moderateScale(16) }}>Crie sua conta</Text>
+                        <Text style={{ fontSize: moderateScale(16), fontFamily: 'Poppins-Medium', color: 'white' }}>Crie sua conta</Text>
                     </TouchableOpacity> 
               </View>      
 

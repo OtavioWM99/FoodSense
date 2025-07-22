@@ -25,13 +25,16 @@ export default function LoginScreen() {
 
             <LinearGradient
                 colors={['#4ade80', '#14b8a6']}
-                className="flex-1 justify-center items-center px-8"
+                style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: moderateScale(20) }}
             >
                 {/* Título */}
-                <Text className="font-poppinsBold text-white text-center"
+                <Text
                     style={{
                         fontSize: moderateScale(27),
-                        marginBottom: verticalScale(30)
+                        fontFamily: 'Poppins-Bold',
+                        marginBottom: verticalScale(30),
+                        color: 'white',
+                        textAlign: 'center',
                     }}
                 >
                 Entrar na sua conta
@@ -39,24 +42,27 @@ export default function LoginScreen() {
                 
                 <View>
                     {/* Input Email */}
-                    <Text className="text-white font-poppinsMedium" style={{ fontSize: moderateScale(18), marginBottom: verticalScale(2) }}>Insira seu email</Text>
-                    <TextInput style={{ fontSize: moderateScale(15), width: scale(250), padding: moderateScale(8), marginBottom: verticalScale(25) }}
+                    <Text style={{ fontSize: moderateScale(18), marginBottom: verticalScale(2), color: 'white', fontFamily: 'Poppins-Medium' }}>Insira seu email</Text>
+                    <TextInput style={{ fontSize: moderateScale(15), width: scale(250), padding: moderateScale(8), marginBottom: verticalScale(25), backgroundColor: 'white', borderRadius: moderateScale(8), fontFamily: 'Poppins-Regular' }}
                         value={email}
                         onChangeText={setEmail}
                         placeholder="email@dominio.com"
                         placeholderTextColor="#B5B5B5"
-                        className="bg-white rounded-lg font-poppinsRegular"
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                        autoCorrect={false}
                     />
 
                     {/* Input Senha */}
-                    <Text className="text-white font-poppinsMedium" style={{ fontSize: moderateScale(18), marginBottom: verticalScale(2) }}>Insira sua senha</Text>
-                    <TextInput style={{ fontSize: moderateScale(15), width: scale(250), padding: moderateScale(8), marginBottom: verticalScale(25) }}
+                    <Text style={{ fontSize: moderateScale(18), marginBottom: verticalScale(2), color: 'white', fontFamily: 'Poppins-Medium' }}>Insira sua senha</Text>
+                    <TextInput style={{ fontSize: moderateScale(15), width: scale(250), padding: moderateScale(8), marginBottom: verticalScale(25), fontFamily: 'Poppins-Regular', backgroundColor: 'white', borderRadius: moderateScale(8) }}
                     value={senha}
                     onChangeText={setSenha}
                     placeholder="Senha"
                     placeholderTextColor="#B5B5B5"
                     secureTextEntry
-                    className="bg-white rounded-lg font-poppinsRegular"
+                    autoCapitalize="none"
+                    autoCorrect={false}
                     />
 
                 </View>

@@ -14,15 +14,16 @@ const ContinuarButton = ({ onPress }) => {
           height: moderateScale(40),
           backgroundColor: '#949494',
           marginBottom: verticalScale(12),
+          borderRadius: moderateScale(24),
+          justifyContent: 'center',
+          alignItems: 'center',
         },
       ]}
-      className="rounded-full items-center justify-center"
       onPress={onPress}
       activeOpacity={0.7}
     >
       <Text
-        className="text-center text-white font-poppinsMedium"
-        style={{ fontSize: moderateScale(14) }}
+        style={{ fontSize: moderateScale(14), textAlign: 'center', color: 'white', fontFamily: 'Poppins-Medium' }}
       >
         Continuar
       </Text>

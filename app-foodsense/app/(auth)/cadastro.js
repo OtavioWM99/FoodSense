@@ -18,31 +18,32 @@ export default function Cadastro() {
     <SafeAreaView style={{ flex: 1 }}>
       <LinearGradient
         colors={['#4ade80', '#14b8a6']}
-        className="flex-1 justify-center items-center"
+        style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
       >
-        <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
-          <Text className="text-white text-center font-poppinsBold" style={{
+        <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
+          <Text style={{
             fontSize: moderateScale(27),
             paddingTop: verticalScale(50),
             marginBottom: verticalScale(30),
+            color: 'white',
+            fontFamily: 'Poppins-Bold',
+            textAlign: 'center'
           }}>
             Crie sua conta
           </Text>
 
-          <Text className="text-white font-poppinsMedium" style = {{fontSize: moderateScale(18), marginBottom: verticalScale(2) }}>Nome de usuário</Text>
+          <Text style = {{fontSize: moderateScale(18), marginBottom: verticalScale(2), color: 'white', fontFamily: 'Poppins-Medium' }}>Nome de usuário</Text>
           <TextInput
-            style={{ fontSize: moderateScale(15), width: scale(250), padding: moderateScale(8), marginBottom: verticalScale(20) }}
-            className="bg-white rounded-lg font-poppinsRegular"
+            style={{ fontSize: moderateScale(15), width: scale(250), marginBottom: verticalScale(20), backgroundColor: 'white', borderRadius: moderateScale(8), fontFamily: 'Poppins-Regular', paddingLeft: moderateScale(8) }}
             placeholder="Seu nome"
             placeholderTextColor="#B5B5B5"
             value={nome}
             onChangeText={setNome}
           />
 
-          <Text className="text-white font-poppinsMedium" style = {{fontSize: moderateScale(18), marginBottom: verticalScale(2) }}>Email</Text>
+          <Text style = {{fontSize: moderateScale(18), marginBottom: verticalScale(2), color: 'white', fontFamily: 'Poppins-Medium' }}>Email</Text>
           <TextInput
-            style={{ fontSize: moderateScale(15), width: scale(250), padding: moderateScale(8), marginBottom: verticalScale(20) }}
-            className="bg-white rounded-lg font-poppinsRegular"
+            style={{ fontSize: moderateScale(15), width: scale(250), marginBottom: verticalScale(20), backgroundColor: 'white', borderRadius: moderateScale(8), fontFamily: 'Poppins-Regular', paddingLeft: moderateScale(8) }}
             placeholder="Seu email"
             placeholderTextColor="#B5B5B5"
             keyboardType="email-address"
@@ -51,10 +52,9 @@ export default function Cadastro() {
             onChangeText={setEmail}
           />
 
-          <Text className="text-white font-poppinsMedium" style = {{fontSize: moderateScale(18), marginBottom: verticalScale(2) }} >Crie sua senha</Text>
+          <Text style = {{fontSize: moderateScale(18), marginBottom: verticalScale(2), color: 'white', fontFamily: 'Poppins-Medium' }} >Crie sua senha</Text>
           <TextInput
-            style={{ fontSize: moderateScale(15), width: scale(250), padding: moderateScale(8), marginBottom: verticalScale(20) }}
-            className="bg-white rounded-lg font-poppinsRegular"
+            style={{ fontSize: moderateScale(15), width: scale(250), marginBottom: verticalScale(20), backgroundColor: 'white', borderRadius: moderateScale(8), fontFamily: 'Poppins-Regular', paddingLeft: moderateScale(8) }}
             placeholder="Senha"
             placeholderTextColor="#B5B5B5"
             secureTextEntry
@@ -62,10 +62,9 @@ export default function Cadastro() {
             onChangeText={setSenha}
           />
 
-          <Text className="text-white font-poppinsMedium" style = {{fontSize: moderateScale(18), marginBottom: verticalScale(2) }}>Confirme sua senha</Text>
+          <Text style = {{fontSize: moderateScale(18), marginBottom: verticalScale(2), fontFamily: 'Poppins-Medium', color: 'white' }}>Confirme sua senha</Text>
           <TextInput
-            style={{ fontSize: moderateScale(15), width: scale(250), padding: moderateScale(8), marginBottom: verticalScale(20) }}
-            className="bg-white rounded-lg font-poppinsRegular"
+            style={{ fontSize: moderateScale(15), width: scale(250), marginBottom: verticalScale(20), fontFamily: 'Poppins-Regular', backgroundColor: 'white', borderRadius: moderateScale(8), paddingLeft: moderateScale(8) }}
             placeholder="Confirmar senha"
             placeholderTextColor="#B5B5B5"
             secureTextEntry

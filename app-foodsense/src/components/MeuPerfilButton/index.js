@@ -5,15 +5,14 @@ import { moderateScale } from 'react-native-size-matters';
 
 const MeuPerfilButton = ({ onPress }) => {
   return (
-    <TouchableOpacity className="items-center" onPress={onPress}>
+    <TouchableOpacity onPress={onPress} style={{ alignItems: 'center' }}>
       <Ionicons
         name="person-sharp"
         color="black"
         style={{ fontSize: moderateScale(30) }}
       />
       <Text
-        style={{ fontSize: moderateScale(10.5) }}
-        className="font-poppinsMedium"
+        style={{ fontSize: moderateScale(10.5), fontFamily: 'Poppins-Medium' }}
       >
         {' '}
         Meu perfil

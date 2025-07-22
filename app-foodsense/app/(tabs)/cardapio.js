@@ -28,27 +28,33 @@ export default function CardapioScreen() {
     <SafeAreaView style={{ flex: 1 }}>
       <LinearGradient 
           colors={['#4ade80', '#14b8a6']}
-          className="flex-1"
+          style={{ flex: 1 }}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* Título */}
           <Text style={{ 
               fontSize: moderateScale(20),
               marginTop: verticalScale(40),
-            }} className="font-poppinsBold text-center text-white">
+              fontFamily: 'Poppins-Bold',
+              textAlign: 'center',
+              color: 'white',
+            }}>
             Encontre opções para suas refeições diárias
           </Text>
 
-          <Text className="font-poppinsMedium text-center text-white"
+          <Text
             style = {{ 
               fontSize: moderateScale(18.5),
               marginTop: verticalScale(25),
+              fontFamily: 'Poppins-Medium',
+              textAlign: 'center',
+              color: 'white',
             }}>
             Seu cardápio personalizado
           </Text>
 
           {/* Grade de botões */}
-          <View className="flex-row flex-wrap justify-evenly">
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
             {[
               { label: 'Café da manhã', icon: 'cafe-outline' },
               { label: 'Almoço', icon: 'restaurant-outline' },
@@ -62,16 +68,19 @@ export default function CardapioScreen() {
                   width: scale(140),
                   height: verticalScale(120),
                   marginTop: moderateScale(20),
+                  borderRadius: moderateScale(15),
+                  justifyContent: 'center',
+                  alignItems: 'center',
                   }
                 ]}
                 key={index}
-                className="rounded-3xl justify-center items-center shadow"
                 activeOpacity={0.7}
               >
                 <Ionicons name={item.icon} color="#000" style={{ fontSize: moderateScale(50) }} />
-                <Text className="font-poppinsMedium" style={{ 
+                <Text style={{ 
                     fontSize: moderateScale(14),
                     marginTop: moderateScale(5),
+                    fontFamily: 'Poppins-Medium',
                   }}>
                   {item.label}
                 </Text>
@@ -82,7 +91,6 @@ export default function CardapioScreen() {
           {/* Botão Mudar preferências */}
           <TouchableOpacity 
             activeOpacity={0.7}
-            className="rounded-full flex-row items-center justify-center shadow" 
             style={[
               shadowStyle.shadow, 
               {
@@ -90,27 +98,18 @@ export default function CardapioScreen() {
               padding: moderateScale(10),
               marginTop: verticalScale(25),
               marginLeft: scale (25),
-              width: scale(300), 
+              width: scale(300),
+              borderRadius: moderateScale(24),
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center', 
             }]}> 
-            <Ionicons name="person-outline" style={{ fontSize:  moderateScale(23) }} color="black" />
-            <Text className="ml-2 font-poppinsMedium" style={{ fontSize:  moderateScale(12) }}>Mudar intolerâncias ou preferências</Text>
+            <Ionicons name="person" style={{ fontSize:  moderateScale(23) }} color="black" />
+            <Text style={{ fontSize:  moderateScale(12), marginLeft: scale(2), fontFamily: 'Poppins-Medium' }}>Mudar intolerâncias ou preferências</Text>
           </TouchableOpacity>
         </ScrollView>
-
-        {/* Navegação inferior */}
-        <View className="flex-row justify-around items-center bg-white py-3 border-t border-gray-200">
-          {[
-            { icon: 'home-outline', label: 'Home' },
-            { icon: 'restaurant-outline', label: 'Cardápio' },
-            { icon: 'book-outline', label: 'Receitas' },
-            { icon: 'newspaper-outline', label: 'Notícias' },
-          ].map((item, index) => (
-            <TouchableOpacity key={index} className="items-center">
-              <Ionicons name={item.icon} size={24} color="black" />
-              <Text className="text-xs">{item.label}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+ 
+        
       </LinearGradient>
     </SafeAreaView>
   );

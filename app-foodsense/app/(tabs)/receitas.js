@@ -28,19 +28,22 @@ export default function ReceitasScreen() {
     <SafeAreaView style={{ flex: 1 }}>
       <LinearGradient 
           colors={['#4ade80', '#14b8a6']}
-          className="flex-1"
+          style={{ flex: 1 }}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* Título */}
           <Text style={{ 
               fontSize: moderateScale(20),
               marginTop: verticalScale(40),
-            }} className="font-poppinsBold text-center text-white">
+              fontFamily: 'Poppins-Bold',
+              textAlign: 'center',
+              color: 'white',
+            }}>
             Encontre receitas com alimentos alternativos
           </Text>
 
           {/* Grade de botões */}
-          <View className="flex-row flex-wrap justify-evenly">
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
             {[
               { label: 'Sem glúten', image: require('../../assets/icons/gluten-free.png'), width: scale(75), height: scale(75), labelMarginBottom: moderateScale(1), labelMarginTop: moderateScale(1) },
               { label: 'Sem lactose', image: require('../../assets/icons/lactose-free.png'), width: scale(90), height: scale(90), labelMarginBottom: moderateScale(10), labelMarginTop: moderateScale(-6) },
@@ -54,10 +57,12 @@ export default function ReceitasScreen() {
                   width: scale(140),
                   height: verticalScale(120),
                   marginTop: moderateScale(20),
+                  borderRadius: moderateScale(15),
+                  justifyContent: 'center',
+                  alignItems: 'center',
                   }
                 ]}
                 key={index}
-                className="rounded-3xl justify-center items-center shadow"
                 activeOpacity={0.7}
               >
                 <Image
@@ -68,8 +73,10 @@ export default function ReceitasScreen() {
                       resizeMode: 'contain',
                     }}
                 />
-                <Text className="font-poppinsMedium text-center" style={{ 
+                <Text style={{ 
                     fontSize: moderateScale(12.5),
+                    fontFamily: 'Poppins-Medium',
+                    textAlign: 'center',
                     marginBottom: item.labelMarginBottom,
                     marginTop: item.labelMarginTop
                   }}>
@@ -81,8 +88,7 @@ export default function ReceitasScreen() {
 
           {/* Botão Mudar preferências */}
           <TouchableOpacity 
-            activeOpacity={0.7}
-            className="rounded-full flex-row items-center justify-center shadow" 
+            activeOpacity={0.7} 
             style={[
               shadowStyle.shadow,
               {
@@ -91,26 +97,17 @@ export default function ReceitasScreen() {
               marginTop: verticalScale(25),
               marginLeft: scale (25),
               width: scale(300),
+              borderRadius: moderateScale(24),
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
             }]}> 
-            <Ionicons name="person-outline" style={{ fontSize:  moderateScale(23) }} color="black" />
-            <Text className="ml-2 font-poppinsMedium" style={{ fontSize:  moderateScale(12) }}>Mudar intolerâncias ou preferências</Text>
+            <Ionicons name="person" style={{ fontSize:  moderateScale(23) }} color="black" />
+            <Text style={{ fontSize:  moderateScale(12), marginLeft: scale(2), fontFamily: 'Poppins-Medium' }}>Mudar intolerâncias ou preferências</Text>
           </TouchableOpacity>
         </ScrollView>
 
-        {/* Navegação inferior */}
-        <View className="flex-row justify-around items-center bg-white py-3 border-t border-gray-200">
-          {[
-            { icon: 'home-outline', label: 'Home' },
-            { icon: 'restaurant-outline', label: 'Cardápio' },
-            { icon: 'book-outline', label: 'Receitas' },
-            { icon: 'newspaper-outline', label: 'Notícias' },
-          ].map((item, index) => (
-            <TouchableOpacity key={index} className="items-center">
-              <Ionicons name={item.icon} size={24} color="black" />
-              <Text className="text-xs">{item.label}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+        
       </LinearGradient>
     </SafeAreaView>
   );
