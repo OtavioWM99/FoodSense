@@ -60,7 +60,7 @@ export default function CardapioScreen() {
             {[
               { label: 'Café da manhã', icon: 'cafe-outline', onPress: () => router.push('/cafeManha') },
               { label: 'Almoço', icon: 'restaurant-outline', onPress: () => router.push('/almoco') },
-              { label: 'Lanches', icon: 'fast-food-outline' },
+              { label: 'Lanches', icon: 'fast-food-outline', onPress: () => router.push('/lanches') },
               { label: ' Jantar', icon: 'wine-outline' },
             ].map((item, index) => (
               <TouchableOpacity style={[
