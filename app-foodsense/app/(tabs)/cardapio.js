@@ -59,7 +59,7 @@ export default function CardapioScreen() {
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
             {[
               { label: 'Café da manhã', icon: 'cafe-outline', onPress: () => router.push('/cafeManha') },
-              { label: 'Almoço', icon: 'restaurant-outline' },
+              { label: 'Almoço', icon: 'restaurant-outline', onPress: () => router.push('/almoco') },
               { label: 'Lanches', icon: 'fast-food-outline' },
               { label: ' Jantar', icon: 'wine-outline' },
             ].map((item, index) => (
