@@ -6,9 +6,11 @@ import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'; //biblioteca size-matters para responsividade
 import { shadowStyle } from '../../src/components/Shadow';
+import { useRouter } from 'expo-router';
 
 
 export default function CardapioScreen() {
+  const router = useRouter();
 
   const [fontsLoaded] = useFonts({
     'Poppins-Thin': require('../../assets/fonts/Poppins-Thin.ttf'),
@@ -56,7 +58,7 @@ export default function CardapioScreen() {
           {/* Grade de botões */}
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
             {[
-              { label: 'Café da manhã', icon: 'cafe-outline' },
+              { label: 'Café da manhã', icon: 'cafe-outline', onPress: () => router.push('/cafeManha') },
               { label: 'Almoço', icon: 'restaurant-outline' },
               { label: 'Lanches', icon: 'fast-food-outline' },
               { label: ' Jantar', icon: 'wine-outline' },
@@ -75,6 +77,7 @@ export default function CardapioScreen() {
                 ]}
                 key={index}
                 activeOpacity={0.7}
+                onPress={item.onPress}
               >
                 <Ionicons name={item.icon} color="#000" style={{ fontSize: moderateScale(50) }} />
                 <Text style={{ 

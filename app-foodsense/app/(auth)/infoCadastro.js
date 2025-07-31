@@ -31,7 +31,7 @@ export default function InfoCadastro() {
                     Crie sua conta
               </Text>
 
-              <View style={{ width: scale(290), alignItems: 'center', backgroundColor: '#C2C2C2', borderRadius: 16, padding: 10, opacity: 0.7, ...shadowStyle.shadow }}>
+              <View style={{ width: scale(290), alignItems: 'center', backgroundColor: '#D9D9D9', borderRadius: 16, padding: 10, opacity: 0.7, ...shadowStyle.shadow }}>
                 <Text style={{ 
                       fontSize: moderateScale(14), 
                       marginBottom: verticalScale(10),
