@@ -28,7 +28,7 @@ const NovoCardapioButton = ({ onPress }) => {
             fontFamily: 'Poppins-Medium',
           }}
         >
-          Crie um novo cardápio com nosso assistente
+          Crie mais com nossa assistente
         </Text>
       </View>
       <Ionicons

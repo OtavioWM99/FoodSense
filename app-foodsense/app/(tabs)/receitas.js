@@ -6,9 +6,11 @@ import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'; //biblioteca size-matters para responsividade
 import { shadowStyle } from '../../src/components/Shadow';
+import { useRouter } from 'expo-router';
 
 
 export default function ReceitasScreen() {
+  const router = useRouter();
 
   const [fontsLoaded] = useFonts({
     'Poppins-Thin': require('../../assets/fonts/Poppins-Thin.ttf'),
@@ -45,7 +47,7 @@ export default function ReceitasScreen() {
           {/* Grade de botões */}
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
             {[
-              { label: 'Sem glúten', image: require('../../assets/icons/gluten-free.png'), width: scale(75), height: scale(75), labelMarginBottom: moderateScale(1), labelMarginTop: moderateScale(1) },
+              { label: 'Sem glúten', onPress: () => router.push('/receitasSemGluten'), image: require('../../assets/icons/gluten-free.png'), width: scale(75), height: scale(75), labelMarginBottom: moderateScale(1), labelMarginTop: moderateScale(1) },
               { label: 'Sem lactose', image: require('../../assets/icons/lactose-free.png'), width: scale(90), height: scale(90), labelMarginBottom: moderateScale(10), labelMarginTop: moderateScale(-6) },
               { label: 'Veganas', image: require('../../assets/icons/vegan.png' ), width: scale(65), height: scale(65), labelMarginBottom: moderateScale(-4), labelMarginTop: moderateScale(6) },
               { label: 'Baixo teor de frutose', image: require('../../assets/icons/fructose-low.png'), width: scale(75), height: scale(75), labelMarginBottom: moderateScale(2), labelMarginTop: moderateScale(2) },
@@ -64,6 +66,7 @@ export default function ReceitasScreen() {
                 ]}
                 key={index}
                 activeOpacity={0.7}
+                onPress={item.onPress}
               >
                 <Image
                     source={item.image}
