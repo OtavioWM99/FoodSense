@@ -294,8 +294,8 @@ export default function Home() {
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Switch
-                    trackColor={{ false: "#767577", true: "#81b0ff" }}
-                    thumbColor={lembrete.ativo ? "#f5dd4b" : "#f4f3f4"}
+                    trackColor={{ false: "#767577", true: "#30F388" }}
+                    thumbColor={lembrete.ativo ? "#f4f3f4" : "#f4f3f4"}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={() => handleToggleLembrete(lembrete.id)}
                     value={lembrete.ativo}
