@@ -48,6 +48,13 @@
           ]
         }
       ]
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "b6ee2fce-a5c6-4468-a335-c3bffb74b84b"
+      }
+    },
+    "owner": "otaviowm"
   }
 }

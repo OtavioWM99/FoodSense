@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Switch } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -7,14 +7,139 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { shadowStyle } from '../../src/components/Shadow';
 import { Calendar } from 'react-native-calendars';
 import { Ionicons } from '@expo/vector-icons';
+import { requestPermissionsAsync } from '../../src/utils/notifications';
+import LembreteModal from '../../src/components/LembreteModal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Notifications from 'expo-notifications';
 
 export default function Home() {
   const router = useRouter();
   const [isAlmocoEnabled, setIsAlmocoEnabled] = useState(false);
   const [isJantaEnabled, setIsJantaEnabled] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [lembretes, setLembretes] = useState([]);
+
+  useEffect(() => {
+    requestPermissionsAsync();
+    loadLembretes();
+
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: false,
+      }),
+    });
+  }, []);
+
+  const loadLembretes = async () => {
+    try {
+      const lembretesSalvos = await AsyncStorage.getItem('lembretes');
+      if (lembretesSalvos !== null) {
+        const lembretesParseados = JSON.parse(lembretesSalvos);
+        const lembretesComData = lembretesParseados.map(lembrete => ({
+          ...lembrete,
+          time: new Date(lembrete.time),
+        }));
+        setLembretes(lembretesComData);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar lembretes:', error);
+    }
+  };
 
   const toggleAlmocoSwitch = () => setIsAlmocoEnabled(previousState => !previousState);
   const toggleJantaSwitch = () => setIsJantaEnabled(previousState => !previousState);
+
+  const handleSaveLembrete = async (lembrete) => {
+    try {
+      const notificationIds = [];
+      for (const dia of lembrete.dias) {
+        const notificationId = await Notifications.scheduleNotificationAsync({
+          content: {
+            title: 'Lembrete de Refeição',
+            body: lembrete.nome,
+          },
+          trigger: {
+            weekday: dia + 1, // 1 = Domingo, 2 = Segunda, etc.
+            hour: lembrete.time.getHours(),
+            minute: lembrete.time.getMinutes(),
+            repeats: true,
+          },
+        });
+        notificationIds.push(notificationId);
+      }
+
+      const novoLembrete = { ...lembrete, id: Date.now().toString(), ativo: true, notificationIds };
+      const novosLembretes = [...lembretes, novoLembrete];
+      setLembretes(novosLembretes);
+      await AsyncStorage.setItem('lembretes', JSON.stringify(novosLembretes));
+      setModalVisible(false);
+    } catch (error) {
+      console.error('Erro ao salvar lembrete:', error);
+    }
+  };
+
+  const handleToggleLembrete = async (id) => {
+    try {
+      const lembreteIndex = lembretes.findIndex((lembrete) => lembrete.id === id);
+      if (lembreteIndex === -1) return;
+
+      const lembreteAtualizado = { ...lembretes[lembreteIndex] };
+      lembreteAtualizado.ativo = !lembreteAtualizado.ativo;
+
+      if (lembreteAtualizado.ativo) {
+        // Reagendar notificações
+        const newNotificationIds = [];
+        for (const dia of lembreteAtualizado.dias) {
+          const notificationId = await Notifications.scheduleNotificationAsync({
+            content: {
+              title: 'Lembrete de Refeição',
+              body: lembreteAtualizado.nome,
+            },
+            trigger: {
+              weekday: dia + 1, // 1 = Domingo, 2 = Segunda, etc.
+              hour: lembreteAtualizado.time.getHours(),
+              minute: lembreteAtualizado.time.getMinutes(),
+              repeats: true,
+            },
+          });
+          newNotificationIds.push(notificationId);
+        }
+        lembreteAtualizado.notificationIds = newNotificationIds;
+      } else {
+        // Cancelar notificações
+        for (const notificationId of lembreteAtualizado.notificationIds) {
+          await Notifications.cancelScheduledNotificationAsync(notificationId);
+        }
+        lembreteAtualizado.notificationIds = [];
+      }
+
+      const novosLembretes = [...lembretes];
+      novosLembretes[lembreteIndex] = lembreteAtualizado;
+      setLembretes(novosLembretes);
+      await AsyncStorage.setItem('lembretes', JSON.stringify(novosLembretes));
+    } catch (error) {
+      console.error('Erro ao ativar/desativar lembrete:', error);
+    }
+  };
+
+  const handleDeleteLembrete = async (id) => {
+    try {
+      const lembreteParaExcluir = lembretes.find((lembrete) => lembrete.id === id);
+      if (lembreteParaExcluir) {
+        for (const notificationId of lembreteParaExcluir.notificationIds) {
+          await Notifications.cancelScheduledNotificationAsync(notificationId);
+        }
+      }
+
+      const novosLembretes = lembretes.filter((lembrete) => lembrete.id !== id);
+      setLembretes(novosLembretes);
+      await AsyncStorage.setItem('lembretes', JSON.stringify(novosLembretes));
+    } catch (error) {
+      console.error('Erro ao excluir lembrete:', error);
+    }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -154,58 +279,49 @@ export default function Home() {
             >
               Lembretes
             </Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: verticalScale(2) }}>
-              <View>
-                <Text style={{ fontFamily: 'Poppins-Medium', fontSize: moderateScale(16) }}>
-                  Lembrete de Almoço
-                </Text>
-                <Text style={{ fontFamily: 'Poppins-Regular', fontSize: moderateScale(14) }}>
-                  12:00h
-                </Text>
-                <Text style={{ fontFamily: 'Poppins-Regular', fontSize: moderateScale(12) }}>
-                  seg, ter, qua, qui, sex
-                </Text>
+            {lembretes.map((lembrete) => (
+              <View key={lembrete.id} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: verticalScale(10) }}>
+                <View>
+                  <Text style={{ fontFamily: 'Poppins-Medium', fontSize: moderateScale(16) }}>
+                    {lembrete.nome}
+                  </Text>
+                  <Text style={{ fontFamily: 'Poppins-Regular', fontSize: moderateScale(14) }}>
+                    {lembrete.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </Text>
+                  <Text style={{ fontFamily: 'Poppins-Regular', fontSize: moderateScale(12) }}>
+                    {lembrete.dias.map(dia => ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'][dia]).join(', ')}
+                  </Text>
+                </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Switch
+                    trackColor={{ false: "#767577", true: "#81b0ff" }}
+                    thumbColor={lembrete.ativo ? "#f5dd4b" : "#f4f3f4"}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={() => handleToggleLembrete(lembrete.id)}
+                    value={lembrete.ativo}
+                  />
+                  <TouchableOpacity style={{ marginLeft: moderateScale(10) }} onPress={() => handleDeleteLembrete(lembrete.id)}>
+                    <Ionicons name="trash-outline" size={moderateScale(24)} color="black" />
+                  </TouchableOpacity>
+                </View>
               </View>
-              <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isAlmocoEnabled ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleAlmocoSwitch}
-                value={isAlmocoEnabled}
-              />
-            </View>
-
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: verticalScale(10) }}>
-              <View>
-                <Text style={{ fontFamily: 'Poppins-Medium', fontSize: moderateScale(16) }}>
-                  Lembrete de Janta
-                </Text>
-                <Text style={{ fontFamily: 'Poppins-Regular', fontSize: moderateScale(14) }}>
-                  20:00h
-                </Text>
-                <Text style={{ fontFamily: 'Poppins-Regular', fontSize: moderateScale(12) }}>
-                  seg, ter, qua, qui, sex
-                </Text>
-              </View>
-              <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isJantaEnabled ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleJantaSwitch}
-                value={isJantaEnabled}
-              />
-            </View>
+            ))}
             <View style={{ borderBottomWidth: 1, borderBottomColor: '#000000', marginVertical: verticalScale(10), opacity: 0.2 }} />
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: verticalScale(4) }}>
               <Text style={{ fontFamily: 'Poppins-Medium', fontSize: moderateScale(14) }}>
                 Novo lembrete personalizado
               </Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => setModalVisible(true)}>
                 <Ionicons name="add-circle-outline" size={moderateScale(24)} color="black" />
               </TouchableOpacity>
             </View>
           </View>
         </ScrollView>
+        <LembreteModal
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          onSave={handleSaveLembrete}
+        />
       </LinearGradient>
     </SafeAreaView>
   );
