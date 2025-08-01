@@ -110,7 +110,7 @@ export default function CafeDaManha() {
                             ))}
                         </View>
 
-                        <NovoCardapioButton onPress={() => router.push('/assistente')} />
+                        <NovoCardapioButton />
 
                     </View>
 

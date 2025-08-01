@@ -2,8 +2,11 @@ import React from 'react';
 import { TouchableOpacity, Text, View } from 'react-native';
 import { moderateScale } from 'react-native-size-matters';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
-const NovoCardapioButton = ({ onPress }) => {
+const NovoCardapioButton = () => {
+  const router = useRouter();
+
   return (
     <TouchableOpacity
       style={[
@@ -17,7 +20,7 @@ const NovoCardapioButton = ({ onPress }) => {
           width: '100%',
         },
       ]}
-      onPress={onPress}
+      onPress={() => router.push('/assistente')}
       activeOpacity={0.7}
     >
       <View style={{ flex: 1 }}>
