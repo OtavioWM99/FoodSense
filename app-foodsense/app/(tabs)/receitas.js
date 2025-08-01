@@ -48,7 +48,7 @@ export default function ReceitasScreen() {
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
             {[
               { label: 'Sem glúten', onPress: () => router.push('/receitasSemGluten'), image: require('../../assets/icons/gluten-free.png'), width: scale(75), height: scale(75), labelMarginBottom: moderateScale(1), labelMarginTop: moderateScale(1) },
-              { label: 'Sem lactose', image: require('../../assets/icons/lactose-free.png'), width: scale(90), height: scale(90), labelMarginBottom: moderateScale(10), labelMarginTop: moderateScale(-6) },
+              { label: 'Sem lactose', onPress: () => router.push('/receitasSemLactose'), image: require('../../assets/icons/lactose-free.png'), width: scale(90), height: scale(90), labelMarginBottom: moderateScale(10), labelMarginTop: moderateScale(-6) },
               { label: 'Veganas', image: require('../../assets/icons/vegan.png' ), width: scale(65), height: scale(65), labelMarginBottom: moderateScale(-4), labelMarginTop: moderateScale(6) },
               { label: 'Baixo teor de frutose', image: require('../../assets/icons/fructose-low.png'), width: scale(75), height: scale(75), labelMarginBottom: moderateScale(2), labelMarginTop: moderateScale(2) },
             ].map((item, index) => (

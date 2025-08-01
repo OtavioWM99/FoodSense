@@ -11,7 +11,7 @@ import NovoCardapioButton from '../src/components/NovoCardapioButton';
 const receitas = [
     {
         id: 1,
-        nome: 'Pão de forma sem glúten',
+        nome: 'Bolo de cenoura sem lactose',
         // imagem: require('../assets/panqueca.png'),
         icones: [
             // require('../assets/icons/vegan.png'),
@@ -20,7 +20,7 @@ const receitas = [
     },
     {
         id: 2,
-        nome: 'Pizza sem glúten',
+        nome: 'Estrogonofe sem lactose',
         // imagem: require('../assets/iogurte.png'),
         icones: [
             // require('../assets/icons/gluten-free.png'),
@@ -28,7 +28,7 @@ const receitas = [
     },
     {
         id: 3,
-        nome: 'Bolo sem glúten',
+        nome: 'Pudim sem lactose',
         // imagem: require('../assets/ovos.png'),
         icones: [
             // require('../assets/icons/gluten-free.png'),
@@ -37,7 +37,7 @@ const receitas = [
     }
 ]
 
-export default function ReceitasSemGluten() {
+export default function ReceitasSemLactose() {
     const router = useRouter();
 
     return (
@@ -56,7 +56,7 @@ export default function ReceitasSemGluten() {
                         textAlign: 'center',
                         marginTop: verticalScale(15),
                         marginBottom: verticalScale(10),
-                    }}>Receitas personalizadas sem glúten</Text>
+                    }}>Receitas personalizadas sem lactose</Text>
 
                     <View style={{ width: scale(320), alignItems: 'center', backgroundColor: '#D9D9D9', borderRadius: 16, padding: moderateScale(10), opacity: 0.7, ...shadowStyle.shadow, marginBottom: verticalScale(20) }}>
                         <Text style={{ 
