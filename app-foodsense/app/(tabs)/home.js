@@ -25,11 +25,32 @@ export default function Home() {
 
     Notifications.setNotificationHandler({
       handleNotification: async () => ({
-        shouldShowAlert: true,
+        shouldShowBanner: true,
+        shouldShowList: true,
         shouldPlaySound: true,
         shouldSetBadge: false,
       }),
     });
+
+    const subscription = Notifications.addNotificationResponseReceivedListener(response => {
+      const { lembreteId, originalTrigger } = response.notification.request.content.data;
+
+      if (lembreteId && originalTrigger) {
+        const nextTrigger = new Date(originalTrigger);
+        nextTrigger.setDate(nextTrigger.getDate() + 7);
+
+        Notifications.scheduleNotificationAsync({
+          content: {
+            title: 'Lembrete de Refeição',
+            body: response.notification.request.content.body,
+            data: { lembreteId, originalTrigger: nextTrigger.toISOString() },
+          },
+          trigger: nextTrigger,
+        });
+      }
+    });
+
+    return () => subscription.remove();
   }, []);
 
   const loadLembretes = async () => {
@@ -53,24 +74,35 @@ export default function Home() {
 
   const handleSaveLembrete = async (lembrete) => {
     try {
-      const notificationIds = [];
+      const novoLembrete = { ...lembrete, id: Date.now().toString(), ativo: true, notificationIds: [] };
+      const now = new Date();
+      const currentDay = now.getDay();
+
       for (const dia of lembrete.dias) {
+        let daysUntilTarget = dia - currentDay;
+        if (daysUntilTarget < 0) {
+          daysUntilTarget += 7;
+        }
+
+        const targetDate = new Date(now);
+        targetDate.setDate(now.getDate() + daysUntilTarget);
+        targetDate.setHours(lembrete.time.getHours(), lembrete.time.getMinutes(), 0, 0);
+
+        if (targetDate.getTime() <= now.getTime()) {
+          targetDate.setDate(targetDate.getDate() + 7);
+        }
+
         const notificationId = await Notifications.scheduleNotificationAsync({
           content: {
             title: 'Lembrete de Refeição',
             body: lembrete.nome,
+            data: { lembreteId: novoLembrete.id, originalTrigger: targetDate.toISOString() },
           },
-          trigger: {
-            weekday: dia + 1, // 1 = Domingo, 2 = Segunda, etc.
-            hour: lembrete.time.getHours(),
-            minute: lembrete.time.getMinutes(),
-            repeats: true,
-          },
+          trigger: targetDate,
         });
-        notificationIds.push(notificationId);
+        novoLembrete.notificationIds.push(notificationId);
       }
 
-      const novoLembrete = { ...lembrete, id: Date.now().toString(), ativo: true, notificationIds };
       const novosLembretes = [...lembretes, novoLembrete];
       setLembretes(novosLembretes);
       await AsyncStorage.setItem('lembretes', JSON.stringify(novosLembretes));
@@ -91,18 +123,30 @@ export default function Home() {
       if (lembreteAtualizado.ativo) {
         // Reagendar notificações
         const newNotificationIds = [];
+        const now = new Date();
+        const currentDay = now.getDay();
+
         for (const dia of lembreteAtualizado.dias) {
+          let daysUntilTarget = dia - currentDay;
+          if (daysUntilTarget < 0) {
+            daysUntilTarget += 7;
+          }
+
+          const targetDate = new Date(now);
+          targetDate.setDate(now.getDate() + daysUntilTarget);
+          targetDate.setHours(lembreteAtualizado.time.getHours(), lembreteAtualizado.time.getMinutes(), 0, 0);
+
+          if (targetDate.getTime() <= now.getTime()) {
+            targetDate.setDate(targetDate.getDate() + 7);
+          }
+
           const notificationId = await Notifications.scheduleNotificationAsync({
             content: {
               title: 'Lembrete de Refeição',
               body: lembreteAtualizado.nome,
+              data: { lembreteId: lembreteAtualizado.id, originalTrigger: targetDate.toISOString() },
             },
-            trigger: {
-              weekday: dia + 1, // 1 = Domingo, 2 = Segunda, etc.
-              hour: lembreteAtualizado.time.getHours(),
-              minute: lembreteAtualizado.time.getMinutes(),
-              repeats: true,
-            },
+            trigger: targetDate,
           });
           newNotificationIds.push(notificationId);
         }
