@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Switch } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Switch, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
@@ -147,6 +147,7 @@ export default function Home() {
       setLembretes(novosLembretes);
       await AsyncStorage.setItem('lembretes', JSON.stringify(novosLembretes));
       setLembreteModalVisible(false);
+      Alert.alert("Sucesso", "Lembrete criado com sucesso!");
     } catch (error) {
       console.error('Erro ao salvar lembrete:', error);
     }
@@ -167,6 +168,7 @@ export default function Home() {
       setNotificacoesPersonalizadas(novasNotificacoes);
       await AsyncStorage.setItem('notificacoesPersonalizadas', JSON.stringify(novasNotificacoes));
       setNotificacaoModalVisible(false);
+      Alert.alert("Sucesso", "Notificação personalizada criada com sucesso!");
     } catch (error) {
       console.error('Erro ao salvar notificação personalizada:', error);
     }

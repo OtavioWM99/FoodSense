@@ -109,7 +109,9 @@ export default function Notificacoes() {
                     )}
                 </View>
 
-                <VoltarButton onPress={() => router.back()} />
+                <View style={{ alignItems: 'center' }}>
+                    <VoltarButton onPress={() => router.back()} />
+                </View>
             </View>
         </LinearGradient>
     )
