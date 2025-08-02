@@ -175,11 +175,76 @@ export default function Home() {
   };
 
   const handleToggleLembrete = async (id) => {
-    // ... (lógica existente)
+    try {
+      const lembreteIndex = lembretes.findIndex((lembrete) => lembrete.id === id);
+      if (lembreteIndex === -1) return;
+
+      const lembreteAtualizado = { ...lembretes[lembreteIndex] };
+      lembreteAtualizado.ativo = !lembreteAtualizado.ativo;
+
+      if (lembreteAtualizado.ativo) {
+        // Reagendar notificações
+        const newNotificationIds = [];
+        const now = new Date();
+        const currentDay = now.getDay();
+
+        for (const dia of lembreteAtualizado.dias) {
+          let daysUntilTarget = dia - currentDay;
+          if (daysUntilTarget < 0) {
+            daysUntilTarget += 7;
+          }
+
+          const targetDate = new Date(now);
+          targetDate.setDate(now.getDate() + daysUntilTarget);
+          targetDate.setHours(lembreteAtualizado.time.getHours(), lembreteAtualizado.time.getMinutes(), 0, 0);
+
+          if (targetDate.getTime() <= now.getTime()) {
+            targetDate.setDate(targetDate.getDate() + 7);
+          }
+
+          const notificationId = await Notifications.scheduleNotificationAsync({
+            content: {
+              title: 'Lembrete de Refeição',
+              body: lembreteAtualizado.nome,
+              data: { lembreteId: lembreteAtualizado.id, originalTrigger: targetDate.toISOString() },
+            },
+            trigger: targetDate,
+          });
+          newNotificationIds.push(notificationId);
+        }
+        lembreteAtualizado.notificationIds = newNotificationIds;
+      } else {
+        // Cancelar notificações
+        for (const notificationId of lembreteAtualizado.notificationIds) {
+          await Notifications.cancelScheduledNotificationAsync(notificationId);
+        }
+        lembreteAtualizado.notificationIds = [];
+      }
+
+      const novosLembretes = [...lembretes];
+      novosLembretes[lembreteIndex] = lembreteAtualizado;
+      setLembretes(novosLembretes);
+      await AsyncStorage.setItem('lembretes', JSON.stringify(novosLembretes));
+    } catch (error) {
+      console.error('Erro ao ativar/desativar lembrete:', error);
+    }
   };
 
   const handleDeleteLembrete = async (id) => {
-    // ... (lógica existente)
+    try {
+      const lembreteParaExcluir = lembretes.find((lembrete) => lembrete.id === id);
+      if (lembreteParaExcluir) {
+        for (const notificationId of lembreteParaExcluir.notificationIds) {
+          await Notifications.cancelScheduledNotificationAsync(notificationId);
+        }
+      }
+
+      const novosLembretes = lembretes.filter((lembrete) => lembrete.id !== id);
+      setLembretes(novosLembretes);
+      await AsyncStorage.setItem('lembretes', JSON.stringify(novosLembretes));
+    } catch (error) {
+      console.error('Erro ao excluir lembrete:', error);
+    }
   };
 
   return (
