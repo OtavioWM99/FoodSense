@@ -1,12 +1,13 @@
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, StyleSheet, Button } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, StyleSheet } from 'react-native';
 import { useState, useEffect, useCallback } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import { useRouter } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '../src/lib/supabase';
 import { useAuth } from '../src/providers/AuthProvider';
 import Header from '../src/components/Header';
+import ContinuarButton from '../src/components/ContinuarButton';
+import VoltarButton from '../src/components/VoltarButton';
 
 export default function Perfil() {
   const router = useRouter();
@@ -27,7 +28,6 @@ export default function Perfil() {
     if (!user) return;
     setLoading(true);
     try {
-      // Fetch all data in parallel
       const [profileRes, userRestrictionsRes, allRestrictionsRes] = await Promise.all([
         supabase.from('profiles').select('*').eq('id', user.id).single(),
         supabase.from('usuario_restricoes').select('restricao_id').eq('usuario_id', user.id),
@@ -38,7 +38,6 @@ export default function Perfil() {
       if (userRestrictionsRes.error) throw userRestrictionsRes.error;
       if (allRestrictionsRes.error) throw allRestrictionsRes.error;
 
-      // Set profile data
       const profile = profileRes.data;
       setNome(profile.nome || '');
       setIdade(profile.idade?.toString() || '');
@@ -47,7 +46,6 @@ export default function Perfil() {
       setGenero(profile.genero || '');
       setExercicios(profile.exercicios_semana?.toString() || '');
 
-      // Set restrictions data
       setAvailableRestrictions(allRestrictionsRes.data || []);
       setSelectedRestrictions(userRestrictionsRes.data.map(r => r.restricao_id) || []);
 
@@ -72,7 +70,6 @@ export default function Perfil() {
     if (!user) return;
     setLoading(true);
 
-    // Update profile table
     const { error: profileError } = await supabase.from('profiles').update({
         nome,
         idade: idade ? parseInt(idade) : null,
@@ -88,7 +85,6 @@ export default function Perfil() {
         return;
     }
 
-    // Update restrictions by deleting all and inserting the new selection
     const { error: deleteError } = await supabase.from('usuario_restricoes').delete().eq('usuario_id', user.id);
     if (deleteError) {
         Alert.alert('Erro ao limpar restrições antigas', deleteError.message);
@@ -136,9 +132,9 @@ export default function Perfil() {
                             </TouchableOpacity>
                         ))}
                     </View>
-                    <Button title="Salvar Alterações" onPress={handleUpdateProfile} color="#10b981" />
-                    <View style={{marginTop: 20}}>
-                        <Button title="Sair (Logout)" onPress={() => supabase.auth.signOut()} color="#ef4444" />
+                    <View style={{alignItems: 'center', marginTop: verticalScale(20)}}>
+                        <ContinuarButton onPress={handleUpdateProfile} text="Salvar Alterações" />
+                        <VoltarButton onPress={() => supabase.auth.signOut()} text="Sair (Logout)" />
                     </View>
                 </View>
             )}

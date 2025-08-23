@@ -3,7 +3,7 @@ import { TouchableOpacity, Text } from 'react-native';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import { shadowStyle } from '../Shadow';
 
-const ContinuarButton = ({ onPress }) => {
+const ContinuarButton = ({ onPress, text }) => {
   return (
     <TouchableOpacity
       style={[
@@ -25,7 +25,7 @@ const ContinuarButton = ({ onPress }) => {
       <Text
         style={{ fontSize: moderateScale(14), textAlign: 'center', color: 'white', fontFamily: 'Poppins-Medium' }}
       >
-        Continuar
+        {text || 'Continuar'}
       </Text>
     </TouchableOpacity>
   );

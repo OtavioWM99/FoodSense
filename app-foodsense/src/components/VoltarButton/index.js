@@ -3,7 +3,7 @@ import { TouchableOpacity, Text } from 'react-native';
 import { scale, moderateScale } from 'react-native-size-matters';
 import { shadowStyle } from '../Shadow';
 
-const VoltarButton = ({ onPress }) => {
+const VoltarButton = ({ onPress, text }) => {
   return (
     <TouchableOpacity
       style={[
@@ -23,7 +23,7 @@ const VoltarButton = ({ onPress }) => {
       <Text
         style={{ fontSize: moderateScale(14), textAlign: 'center', color: 'white', fontFamily: 'Poppins-Medium' }}
       >
-        Voltar
+        {text || 'Voltar'}
       </Text>
     </TouchableOpacity>
   );
