@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Platform, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
@@ -6,6 +6,7 @@ import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ContinuarButton from '../../src/components/ContinuarButton';
 import VoltarButton from '../../src/components/VoltarButton';
+import { supabase } from '../../src/lib/supabase';
 
 export default function Cadastro() {
   const router = useRouter();
@@ -13,6 +14,54 @@ export default function Cadastro() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  async function handleSignUp() {
+    if (loading) return;
+    if (!nome || !email || !senha || !confirmarSenha) {
+      Alert.alert('Erro', 'Por favor, preencha todos os campos.');
+      return;
+    }
+    if (senha !== confirmarSenha) {
+      Alert.alert('Erro', 'As senhas não coincidem.');
+      return;
+    }
+
+    setLoading(true);
+
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      password: senha,
+    });
+
+    if (error) {
+      Alert.alert('Erro no cadastro', error.message);
+      setLoading(false);
+      return;
+    }
+
+    if (!data.user) {
+        Alert.alert('Erro no cadastro', 'Não foi possível criar o usuário. Tente novamente.');
+        setLoading(false);
+        return;
+    }
+
+    // Usa o upsert para garantir que o perfil seja criado, mesmo se o trigger não existir.
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .upsert({ id: data.user.id, nome: nome });
+
+    if (profileError) {
+        // O ideal aqui seria deletar o usuário recém criado para evitar inconsistência
+        // await supabase.auth.admin.deleteUser(data.user.id)
+        Alert.alert('Erro ao salvar perfil', profileError.message);
+        setLoading(false);
+        return;
+    }
+    
+    setLoading(false);
+    router.push('/(auth)/infoCadastro');
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -72,7 +121,7 @@ export default function Cadastro() {
             onChangeText={setConfirmarSenha}
           />
 
-          <ContinuarButton onPress={() => router.push('/(auth)/infoCadastro')} />
+          <ContinuarButton onPress={handleSignUp} />
           <VoltarButton onPress={() => router.back()} />
           
         </ScrollView>

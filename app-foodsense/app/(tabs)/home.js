@@ -365,4 +365,6 @@ export default function Home() {
     </SafeAreaView>
   );
 }
+
+
 ''

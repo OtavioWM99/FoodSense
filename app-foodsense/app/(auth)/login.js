@@ -1,19 +1,36 @@
-import { View, Text, TextInput, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Platform, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { scale, verticalScale, moderateScale } from 'react-native-size-matters'; //biblioteca size-matters para responsividade
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ContinuarButton from '../../src/components/ContinuarButton';
 import VoltarButton from '../../src/components/VoltarButton';
+import { supabase } from '../../src/lib/supabase';
 
 export default function LoginScreen() {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    const handleLogin = () => {
-    // Adicionar validação / autenticação real aqui
-    router.replace('/home');  // Navega para a aba Home, limpando o histórico de auth
+    async function handleLogin() {
+        if (loading) return;
+        if (email === '' || senha === '') {
+            Alert.alert('Erro', 'Por favor, preencha email e senha.');
+            return;
+        }
+
+        setLoading(true);
+        const { error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: senha,
+        });
+
+        if (error) {
+            Alert.alert('Erro no login', error.message);
+        }
+        // Se o login for bem-sucedido, o AuthProvider e o _layout cuidarão do redirecionamento.
+        setLoading(false);
     };
 
     const handleVoltar = () => {
