@@ -81,6 +81,38 @@ export default function InfoCadastro() {
     router.replace('/home');
   }
 
+  async function handleVoltar() {
+    Alert.alert(
+        "Confirmar Ação",
+        "Tem certeza que deseja voltar? Sua conta será excluída e você precisará se cadastrar novamente.",
+        [
+            { text: "Cancelar", style: "cancel" },
+            { 
+                text: "Confirmar", 
+                onPress: async () => {
+                    setLoading(true);
+                    const { error } = await supabase.functions.invoke('delete-user');
+                    setLoading(false);
+                    
+                    if (error) {
+                        console.error('Erro ao chamar Edge Function delete-user:', error);
+                        Alert.alert(
+                            'Erro ao Excluir Conta',
+                            `Não foi possível remover sua conta. Por favor, tente novamente. (Erro: ${error.message})`,
+                            [{ text: 'OK' }]
+                        );
+                    } else {
+                        // A exclusão do usuário no Supabase invalida a sessão atual.
+                        // Apenas redirecionamos o usuário.
+                        router.replace('/(auth)');
+                    }
+                },
+                style: 'destructive' 
+            }
+        ]
+    );
+  }
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
         <LinearGradient colors={['#4ade80', '#14b8a6']} style={{ flex: 1 }}>
@@ -109,7 +141,7 @@ export default function InfoCadastro() {
               </View>
 
               <ContinuarButton onPress={handleSaveProfile} />
-              <VoltarButton onPress={() => router.back()} />
+              <VoltarButton onPress={handleVoltar} />
             </ScrollView>
         </LinearGradient>
     </SafeAreaView>

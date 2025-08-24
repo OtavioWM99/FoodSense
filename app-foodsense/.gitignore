@@ -52,3 +52,15 @@ metro-cache/
 
 #Images
 imagens-gemini-cli/
+
+# Logs
+raw.txt
+functionsbd.txt
+logg.txt
+log.txt
+
+# Supabase temp files
+supabase/.temp/
+
+# Nativewind
+nativewind-env.d.ts
