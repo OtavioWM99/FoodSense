@@ -28,6 +28,8 @@ export default function RootLayout(){
                 screenOptions={{
                     header: () => <Header />,
                     tabBarActiveTintColor: 'black',
+                    tabBarInactiveTintColor: 'gray', // Cor para ícones inativos
+                    tabBarStyle: { backgroundColor: 'white' }, // Fundo branco para a barra de abas
                 }}
             >
                 <Tabs.Screen 

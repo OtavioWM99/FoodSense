@@ -248,8 +248,8 @@ export default function Home() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <LinearGradient colors={['#4ade80', '#14b8a6']} style={{ flex: 1 }}>
+    <LinearGradient colors={['#4ade80', '#14b8a6']} style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={{ fontFamily: 'Poppins-Bold', color: 'white', textAlign: 'center', fontSize: moderateScale(26), marginTop: verticalScale(20), marginBottom: verticalScale(30) }}>
             Olá (nome do usuário)
@@ -361,8 +361,8 @@ export default function Home() {
           onClose={() => setNotificacaoModalVisible(false)}
           onSave={handleSaveNotificacaoPersonalizada}
         />
-      </LinearGradient>
-    </SafeAreaView>
+      </SafeAreaView>
+    </LinearGradient>
   );
 }
 
