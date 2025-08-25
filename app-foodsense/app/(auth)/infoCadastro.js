@@ -15,7 +15,7 @@ export default function InfoCadastro() {
   const [idade, setIdade] = useState('');
   const [peso, setPeso] = useState('');
   const [altura, setAltura] = useState('');
-  const [genero, setGenero] = useState('');
+  const [sexoSelecionado, setSexoSelecionado] = useState(''); // Novo estado para sexo
   const [exercicios, setExercicios] = useState('');
   
   const [availableRestrictions, setAvailableRestrictions] = useState([]);
@@ -42,6 +42,36 @@ export default function InfoCadastro() {
   async function handleSaveProfile() {
     if (loading) return;
 
+    // Validação dos campos
+    if (!idade || !peso || !altura || !sexoSelecionado || !exercicios) {
+      Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios.');
+      return;
+    }
+
+    const parsedIdade = parseInt(idade);
+    if (isNaN(parsedIdade) || parsedIdade <= 0 || parsedIdade > 120) {
+      Alert.alert('Erro', 'Idade inválida. Por favor, insira um número entre 1 e 120.');
+      return;
+    }
+
+    const parsedPeso = parseFloat(peso);
+    if (isNaN(parsedPeso) || parsedPeso <= 0) {
+      Alert.alert('Erro', 'Peso inválido. Por favor, insira um número positivo.');
+      return;
+    }
+
+    const parsedAltura = parseInt(altura);
+    if (isNaN(parsedAltura) || parsedAltura <= 0) {
+      Alert.alert('Erro', 'Altura inválida. Por favor, insira um número positivo.');
+      return;
+    }
+
+    const parsedExercicios = parseInt(exercicios);
+    if (isNaN(parsedExercicios) || parsedExercicios < 0 || parsedExercicios > 7) {
+      Alert.alert('Erro', 'Dias de exercício inválidos. Por favor, insira um número entre 0 e 7.');
+      return;
+    }
+
     const { data: { user }, error: userError } = await supabase.auth.getUser();
 
     if (userError || !user) {
@@ -53,11 +83,11 @@ export default function InfoCadastro() {
     setLoading(true);
 
     const { error: profileError } = await supabase.from('profiles').update({
-        idade: idade ? parseInt(idade) : null,
-        peso: peso ? parseFloat(peso) : null,
-        altura: altura ? parseFloat(altura) : null,
-        genero: genero,
-        exercicios_semana: exercicios ? parseInt(exercicios) : null,
+        idade: parsedIdade,
+        peso: parsedPeso,
+        altura: parsedAltura,
+        genero: sexoSelecionado, // Usando o novo estado de sexo
+        exercicios_semana: parsedExercicios,
     }).eq('id', user.id);
 
     if (profileError) {
@@ -102,8 +132,6 @@ export default function InfoCadastro() {
                             [{ text: 'OK' }]
                         );
                     } else {
-                        // A exclusão do usuário no Supabase invalida a sessão atual.
-                        // Força o redirecionamento para a tela de login.
                         console.log('Usuário deletado com sucesso. Forçando logout local e redirecionando para a raiz.');
                         await supabase.auth.signOut(); // Força o logout localmente
                         router.replace('/'); // Redireciona para a raiz
@@ -121,12 +149,52 @@ export default function InfoCadastro() {
             <ScrollView contentContainerStyle={styles.container}>
               <Text style={styles.title}>Complete seu Perfil</Text>
               
+              {/* Texto Explicativo */}
+              <Text style={styles.explanatoryText}>
+                Coletamos estas informações para otimizar o uso do aplicativo,
+                permitindo que nossa assistente virtual ofereça opções mais
+                personalizadas de acordo com suas necessidades.
+              </Text>
+
               <View style={styles.formContainer}>
-                <TextInput style={styles.input} placeholder="Idade" value={idade} onChangeText={setIdade} keyboardType="numeric" />
-                <TextInput style={styles.input} placeholder="Peso (kg)" value={peso} onChangeText={setPeso} keyboardType="decimal-pad" />
-                <TextInput style={styles.input} placeholder="Altura (cm)" value={altura} onChangeText={setAltura} keyboardType="numeric" />
-                <TextInput style={styles.input} placeholder="Gênero" value={genero} onChangeText={setGenero} />
-                <TextInput style={styles.input} placeholder="Dias de exercício/semana" value={exercicios} onChangeText={setExercicios} keyboardType="numeric" />
+                {/* Idade */}
+                <Text style={styles.inputLabel}>Idade</Text>
+                <TextInput style={styles.input} placeholder="Ex: 30" value={idade} onChangeText={setIdade} keyboardType="numeric" />
+                
+                {/* Peso */}
+                <Text style={styles.inputLabel}>Peso (kg)</Text>
+                <TextInput style={styles.input} placeholder="Ex: 70.5" value={peso} onChangeText={setPeso} keyboardType="decimal-pad" />
+                
+                {/* Altura */}
+                <Text style={styles.inputLabel}>Altura (cm)</Text>
+                <TextInput style={styles.input} placeholder="Ex: 175" value={altura} onChangeText={setAltura} keyboardType="numeric" />
+                
+                {/* Sexo */}
+                <Text style={styles.inputLabel}>Sexo</Text>
+                <View style={styles.genderOptionsContainer}>
+                  <TouchableOpacity
+                    style={[styles.genderButton, sexoSelecionado === 'Masculino' && styles.genderButtonSelected]}
+                    onPress={() => setSexoSelecionado('Masculino')}
+                  >
+                    <Text style={[styles.genderButtonText, sexoSelecionado === 'Masculino' && styles.genderButtonTextSelected]}>Masculino</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.genderButton, sexoSelecionado === 'Feminino' && styles.genderButtonSelected]}
+                    onPress={() => setSexoSelecionado('Feminino')}
+                  >
+                    <Text style={[styles.genderButtonText, sexoSelecionado === 'Feminino' && styles.genderButtonTextSelected]}>Feminino</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.genderButton, sexoSelecionado === 'Prefiro não informar' && styles.genderButtonSelected]}
+                    onPress={() => setSexoSelecionado('Prefiro não informar')}
+                  >
+                    <Text style={[styles.genderButtonText, sexoSelecionado === 'Prefiro não informar' && styles.genderButtonTextSelected]}>Prefiro não informar</Text>
+                  </TouchableOpacity>
+                </View>
+                
+                {/* Dias de Exercício */}
+                <Text style={styles.inputLabel}>Dias de exercício/semana</Text>
+                <TextInput style={styles.input} placeholder="Ex: 3" value={exercicios} onChangeText={setExercicios} keyboardType="numeric" />
 
                 <Text style={styles.subtitle}>Restrições Alimentares</Text>
                 <View style={styles.restrictionsContainer}>
@@ -153,11 +221,22 @@ export default function InfoCadastro() {
 const styles = StyleSheet.create({
     container: { flexGrow: 1, alignItems: 'center', padding: moderateScale(10) },
     title: { fontSize: moderateScale(27), paddingTop: verticalScale(20), marginBottom: verticalScale(20), color: '#FFFFFF', fontFamily: 'Poppins-Bold', textAlign: 'center' },
+    explanatoryText: { fontSize: moderateScale(14), color: '#FFFFFF', fontFamily: 'Poppins-Regular', textAlign: 'center', marginBottom: verticalScale(20), paddingHorizontal: moderateScale(20) },
     subtitle: { fontSize: moderateScale(18), marginTop: verticalScale(20), marginBottom: verticalScale(10), color: '#FFFFFF', fontFamily: 'Poppins-Medium' },
-    formContainer: { width: '90%' },
-    input: { backgroundColor: 'white', borderRadius: moderateScale(8), padding: moderateScale(10), marginBottom: verticalScale(10), fontFamily: 'Poppins-Regular', fontSize: moderateScale(14) },
-    restrictionsContainer: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' },
-    restrictionButton: { backgroundColor: '#FFF', padding: moderateScale(10), borderRadius: 20, margin: 5 },
+    formContainer: { width: '90%', alignItems: 'center' }, // Centraliza os inputs
+    inputLabel: { fontSize: moderateScale(18), marginBottom: verticalScale(2), color: 'white', fontFamily: 'Poppins-Medium', alignSelf: 'flex-start', width: scale(250) }, // Alinha label com input
+    input: { fontSize: moderateScale(15), width: scale(250), marginBottom: verticalScale(20), backgroundColor: 'white', borderRadius: moderateScale(8), fontFamily: 'Poppins-Regular', paddingLeft: moderateScale(8) },
+    
+    // Estilos para seleção de Sexo
+    genderOptionsContainer: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', width: scale(250), marginBottom: verticalScale(20) },
+    genderButton: { backgroundColor: '#FFF', paddingVertical: moderateScale(10), paddingHorizontal: moderateScale(15), borderRadius: moderateScale(8), marginVertical: moderateScale(5), width: '30%', alignItems: 'center' },
+    genderButtonSelected: { backgroundColor: '#34d399' },
+    genderButtonText: { fontFamily: 'Poppins-Regular', color: '#333', fontSize: moderateScale(12) },
+    genderButtonTextSelected: { color: '#FFF', fontFamily: 'Poppins-Bold' },
+
+    // Estilos para Restrições Alimentares
+    restrictionsContainer: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', width: '100%' }, // Centraliza e ocupa largura total
+    restrictionButton: { backgroundColor: '#FFF', paddingVertical: moderateScale(10), paddingHorizontal: moderateScale(15), borderRadius: 20, margin: moderateScale(5), minWidth: scale(100), flexGrow: 1, alignItems: 'center' }, // Mais largo e flexível
     restrictionSelected: { backgroundColor: '#34d399' },
     restrictionText: { fontFamily: 'Poppins-Regular', color: '#333' },
     restrictionTextSelected: { color: '#FFF', fontFamily: 'Poppins-Bold' },
