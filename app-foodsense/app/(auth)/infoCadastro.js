@@ -103,8 +103,10 @@ export default function InfoCadastro() {
                         );
                     } else {
                         // A exclusão do usuário no Supabase invalida a sessão atual.
-                        // Apenas redirecionamos o usuário.
-                        router.replace('/(auth)');
+                        // Força o redirecionamento para a tela de login.
+                        console.log('Usuário deletado com sucesso. Forçando logout local e redirecionando para a raiz.');
+                        await supabase.auth.signOut(); // Força o logout localmente
+                        router.replace('/'); // Redireciona para a raiz
                     }
                 },
                 style: 'destructive' 
