@@ -92,6 +92,7 @@ export default function ReceitasScreen() {
             {/* Botão Mudar preferências */}
             <TouchableOpacity 
               activeOpacity={0.7} 
+              onPress={() => router.push('/perfil')}
               style={[
                 shadowStyle.shadow,
                 {
@@ -106,7 +107,7 @@ export default function ReceitasScreen() {
                 justifyContent: 'center',
               }]}> 
               <Ionicons name="person" style={{ fontSize:  moderateScale(23) }} color="black" />
-              <Text style={{ fontSize:  moderateScale(12), marginLeft: scale(2), fontFamily: 'Poppins-Medium' }}>Mudar intolerâncias ou preferências</Text>
+              <Text style={{ fontSize:  moderateScale(12), marginLeft: scale(2), fontFamily: 'Poppins-Medium' }}>Personalize seu perfil</Text>
             </TouchableOpacity>
           </ScrollView>
         </SafeAreaView>

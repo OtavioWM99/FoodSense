@@ -166,7 +166,7 @@ export default function Perfil() {
                 />
             </TouchableOpacity>
 
-            <ScrollView contentContainerStyle={styles.container}>
+            <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
                 <Text style={styles.title}>Meu Perfil</Text>
                 
                 {/* Texto Explicativo */}
