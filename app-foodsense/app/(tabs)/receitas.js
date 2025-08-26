@@ -37,6 +37,8 @@ export default function ReceitasScreen() {
             <Text style={{ 
                 fontSize: moderateScale(20),
                 marginTop: verticalScale(25),
+                paddingRight: moderateScale(6),
+                paddingLeft: moderateScale(6),
                 fontFamily: 'Poppins-Bold',
                 textAlign: 'center',
                 color: 'white',

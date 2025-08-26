@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Switch, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
+import { useAuth } from '../../src/providers/AuthProvider';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { shadowStyle } from '../../src/components/Shadow';
@@ -15,6 +16,7 @@ import * as Notifications from 'expo-notifications';
 
 export default function Home() {
   const router = useRouter();
+  const { profile } = useAuth();
   const [lembretes, setLembretes] = useState([]);
   const [notificacoesPersonalizadas, setNotificacoesPersonalizadas] = useState([]);
   const [lembreteModalVisible, setLembreteModalVisible] = useState(false);
@@ -252,7 +254,7 @@ export default function Home() {
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={{ fontFamily: 'Poppins-Bold', color: 'white', textAlign: 'center', fontSize: moderateScale(26), marginTop: verticalScale(20), marginBottom: verticalScale(30) }}>
-            Olá (nome do usuário)
+            Olá, {profile?.nome || 'Usuário'}
           </Text>
 
           <View style={{ marginBottom: verticalScale(20), flexDirection: 'row', justifyContent: 'space-evenly' }}>
