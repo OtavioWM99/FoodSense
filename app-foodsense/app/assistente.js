@@ -12,7 +12,7 @@ import { useAuth } from "../src/providers/AuthProvider";
 const initialMessages = [
     {
         id: 1,
-        text: 'Olá! Sou sua assistente virtual para criação de cardápios e receitas. Como posso te ajudar hoje?',
+        text: 'Olá! Sou sua assistente virtual. Estou aqui para ajudar você a criar refeições deliciosas e seguras para suas necessidades.\n\nO que você gostaria de fazer?\n\n1. Criar um cardápio completo para uma refeição.\n2. Gerar uma receita única.',
         sender: 'assistant'
     },
 ];
@@ -23,6 +23,8 @@ export default function Assistente() {
     const [messages, setMessages] = useState(initialMessages);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    // Variável de estado para controlar a conversa
+    const [conversationState, setConversationState] = useState('start');
 
     const handleSend = async () => {
         if (input.trim() === '' || isLoading) {
@@ -51,7 +53,9 @@ export default function Assistente() {
                 },
                 body: JSON.stringify({
                     userId: session.user.id,
-                    prompt: currentInput,
+                    userMessage: currentInput,
+                    // Enviando a variável de estado, que mudará a cada passo
+                    conversationState: conversationState,
                 }),
             });
 
@@ -60,17 +64,23 @@ export default function Assistente() {
                 throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
             }
 
-            const aiMessageText = await response.text(); // Get response as plain text
+            // A resposta do n8n agora é um JSON
+            const responseData = await response.json();
 
-            if (aiMessageText) { // Check if the text is not empty
+            if (responseData.aiResponse) {
                 const assistantMessage = {
                     id: messages.length + 2,
-                    text: aiMessageText,
+                    text: responseData.aiResponse,
                     sender: 'assistant'
                 };
                 setMessages(prevMessages => [...prevMessages, assistantMessage]);
+                
+                // Atualizando o estado da conversa com o que o n8n mandou
+                if (responseData.conversationState) {
+                    setConversationState(responseData.conversationState);
+                }
             } else {
-                throw new Error("A IA retornou uma resposta vazia.");
+                throw new Error("A IA retornou uma resposta inválida.");
             }
 
         } catch (error) {
@@ -85,6 +95,7 @@ export default function Assistente() {
             setIsLoading(false);
         }
     };
+
 
     return (
         <LinearGradient
