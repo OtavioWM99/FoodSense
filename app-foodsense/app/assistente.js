@@ -12,7 +12,7 @@ import { useAuth } from "../src/providers/AuthProvider";
 const initialMessages = [
     {
         id: 1,
-        text: 'Olá! Sou sua assistente virtual. Estou aqui para ajudar você a criar refeições deliciosas e seguras para suas necessidades.\n\nO que você gostaria de fazer?\n\n1. Criar um cardápio completo para uma refeição.\n2. Gerar uma receita única.',
+        text: 'Olá! Sou sua assistente virtual. Estou aqui para ajudar você a criar refeições deliciosas e seguras para suas necessidades.\n\nO que você gostaria de fazer?\n\n1️⃣ Criar um cardápio completo para uma refeição.\n2️⃣ Gerar uma receita única.\n\nOBS: Digite apenas o número da opção desejada',
         sender: 'assistant'
     },
 ];
@@ -25,6 +25,8 @@ export default function Assistente() {
     const [isLoading, setIsLoading] = useState(false);
     // Variável de estado para controlar a conversa
     const [conversationState, setConversationState] = useState('start');
+    // Variável para gerenciar o conteúdo gerado recebido pela IA
+    const [lastGeneratedContent, setLastGeneratedContent] = useState(null);
 
     const handleSend = async () => {
         if (input.trim() === '' || isLoading) {
@@ -56,6 +58,7 @@ export default function Assistente() {
                     userMessage: currentInput,
                     // Enviando a variável de estado, que mudará a cada passo
                     conversationState: conversationState,
+                    generatedContent: lastGeneratedContent,
                 }),
             });
 
@@ -79,6 +82,11 @@ export default function Assistente() {
                 if (responseData.conversationState) {
                     setConversationState(responseData.conversationState);
                 }
+
+                if (responseData.generatedContent) {
+                    setLastGeneratedContent(responseData.generatedContent);
+                }
+
             } else {
                 throw new Error("A IA retornou uma resposta inválida.");
             }
