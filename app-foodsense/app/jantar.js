@@ -7,21 +7,29 @@ import Header from '../src/components/Header';
 import VoltarButton from "../src/components/VoltarButton";
 import { Ionicons } from '@expo/vector-icons';
 import NovoCardapioButton from '../src/components/NovoCardapioButton';
-
-const refeicoes = [
-    {
-        id: 1,
-        nome: 'Jantar Sem Glúten',
-        // imagem: require('../assets/panqueca.png'),
-        icones: [
-            // require('../assets/icons/vegan.png'),
-            // require('../assets/icons/lactose-free.png'),
-        ]
-    },
-]
+import { supabase } from "../src/lib/supabase";
+import { useEffect, useState } from "react";
 
 export default function Jantar() {
     const router = useRouter();
+    const [refeicoes, setRefeicoes] = useState([]);
+
+    useEffect(() => {
+        const fetchCardapios = async () => {
+            const { data, error } = await supabase
+                .from('cardapios_salvos')
+                .select('*')
+                .eq('tipo', 'jantar');
+
+            if (error) {
+                console.error('Erro ao buscar cardápios:', error);
+            } else {
+                setRefeicoes(data);
+            }
+        };
+
+        fetchCardapios();
+    }, []);
 
     return (
         <LinearGradient
@@ -76,9 +84,9 @@ export default function Jantar() {
                                             fontFamily: 'Poppins-SemiBold',
                                         }}>{refeicao.nome}</Text>
                                         <View style={{ flexDirection: 'row', marginTop: verticalScale(10) }}>
-                                            {refeicao.icones.map((icone, index) => (
+                                            {/* {refeicao.icones.map((icone, index) => (
                                                 <Image key={index} source={icone} style={{ width: scale(24), height: verticalScale(24), marginRight: moderateScale(10) }} />
-                                            ))}
+                                            ))} */}
                                         </View>
                                     </View>
                                     <View style={{ flexDirection: 'row' }}>

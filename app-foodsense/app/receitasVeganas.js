@@ -7,38 +7,29 @@ import Header from '../src/components/Header';
 import VoltarButton from "../src/components/VoltarButton";
 import { Ionicons } from '@expo/vector-icons';
 import NovoCardapioButton from '../src/components/NovoCardapioButton';
-
-const receitas = [
-    {
-        id: 1,
-        nome: 'Feijoada vegana',
-        // imagem: require('../assets/panqueca.png'),
-        icones: [
-            // require('../assets/icons/vegan.png'),
-            // require('../assets/icons/lactose-free.png'),
-        ]
-    },
-    {
-        id: 2,
-        nome: 'Feijoada vegana',
-        // imagem: require('../assets/iogurte.png'),
-        icones: [
-            // require('../assets/icons/gluten-free.png'),
-        ]
-    },
-    {
-        id: 3,
-        nome: 'Hambúrguer vegano',
-        // imagem: require('../assets/ovos.png'),
-        icones: [
-            // require('../assets/icons/gluten-free.png'),
-            // require('../assets/icons/fructose-low.png'),
-        ]
-    }
-]
+import { supabase } from "../src/lib/supabase";
+import { useEffect, useState } from "react";
 
 export default function ReceitasVeganas() {
     const router = useRouter();
+    const [receitas, setReceitas] = useState([]);
+
+    useEffect(() => {
+        const fetchReceitas = async () => {
+            const { data, error } = await supabase
+                .from('receitas_salvas')
+                .select('*')
+                .eq('tipo', 'vegana');
+
+            if (error) {
+                console.error('Erro ao buscar receitas:', error);
+            } else {
+                setReceitas(data);
+            }
+        };
+
+        fetchReceitas();
+    }, []);
 
     return (
         <LinearGradient
@@ -93,9 +84,9 @@ export default function ReceitasVeganas() {
                                             fontFamily: 'Poppins-SemiBold',
                                         }}>{refeicao.nome}</Text>
                                         <View style={{ flexDirection: 'row', marginTop: verticalScale(10) }}>
-                                            {refeicao.icones.map((icone, index) => (
+                                            {/* {refeicao.icones.map((icone, index) => (
                                                 <Image key={index} source={icone} style={{ width: scale(24), height: verticalScale(24), marginRight: moderateScale(10) }} />
-                                            ))}
+                                            ))} */}
                                         </View>
                                     </View>
                                     <View style={{ flexDirection: 'row' }}>

@@ -7,38 +7,29 @@ import Header from '../src/components/Header';
 import VoltarButton from "../src/components/VoltarButton";
 import { Ionicons } from '@expo/vector-icons';
 import NovoCardapioButton from '../src/components/NovoCardapioButton';
-
-const refeicoes = [
-    {
-        id: 1,
-        nome: 'Arroz com ovo e brócolis',
-        // imagem: require('../assets/panqueca.png'),
-        icones: [
-            // require('../assets/icons/vegan.png'),
-            // require('../assets/icons/lactose-free.png'),
-        ]
-    },
-    {
-        id: 2,
-        nome: 'Frango com batata doce e cenoura',
-        // imagem: require('../assets/iogurte.png'),
-        icones: [
-            // require('../assets/icons/gluten-free.png'),
-        ]
-    },
-    {
-        id: 3,
-        nome: 'Ovos mexidos com arroz e legumes',
-        // imagem: require('../assets/ovos.png'),
-        icones: [
-            // require('../assets/icons/gluten-free.png'),
-            // require('../assets/icons/fructose-low.png'),
-        ]
-    }
-]
+import { supabase } from "../src/lib/supabase";
+import { useEffect, useState } from "react";
 
 export default function Almoco() {
     const router = useRouter();
+    const [refeicoes, setRefeicoes] = useState([]);
+
+    useEffect(() => {
+        const fetchCardapios = async () => {
+            const { data, error } = await supabase
+                .from('cardapios_salvos')
+                .select('*')
+                .eq('tipo', 'almoco');
+
+            if (error) {
+                console.error('Erro ao buscar cardápios:', error);
+            } else {
+                setRefeicoes(data);
+            }
+        };
+
+        fetchCardapios();
+    }, []);
 
     return (
         <LinearGradient
@@ -93,9 +84,9 @@ export default function Almoco() {
                                             fontFamily: 'Poppins-SemiBold',
                                         }}>{refeicao.nome}</Text>
                                         <View style={{ flexDirection: 'row', marginTop: verticalScale(10) }}>
-                                            {refeicao.icones.map((icone, index) => (
+                                            {/* {refeicao.icones.map((icone, index) => (
                                                 <Image key={index} source={icone} style={{ width: scale(24), height: verticalScale(24), marginRight: moderateScale(10) }} />
-                                            ))}
+                                            ))} */}
                                         </View>
                                     </View>
                                     <View style={{ flexDirection: 'row' }}>
