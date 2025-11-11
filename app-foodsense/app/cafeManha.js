@@ -41,12 +41,12 @@ export default function CafeDaManha() {
                 <View style={{ padding: moderateScale(20), alignItems: 'center' }}>
                     
                     <Text style={{
-                        fontSize: moderateScale(28),
+                        fontSize: moderateScale(22),
                         fontFamily: 'Poppins-Bold',
                         color: 'white',
                         textAlign: 'center',
                         marginTop: verticalScale(15),
-                        marginBottom: verticalScale(10),
+                        marginBottom: verticalScale(20),
                     }}>Café da Manhã</Text>
 
                     <View style={{ width: scale(320), alignItems: 'center', backgroundColor: '#D9D9D9', borderRadius: 16, padding: moderateScale(10), opacity: 0.7, ...shadowStyle.shadow, marginBottom: verticalScale(20) }}>
@@ -75,7 +75,7 @@ export default function CafeDaManha() {
                                         }
                                     ]}
                                     activeOpacity={0.7}
-                                    onPress={() => {/* Futura tela de edição */}}
+                                    onPress={() => router.push(`/detalhe-item/${refeicao.id}?table=cardapios_salvos`)}
                                 >
                                     {/* <Image source={refeicao.imagem} style={{ width: scale(80), height: verticalScale(80), borderRadius: moderateScale(10) }} /> */}
                                     <View style={{ marginLeft: moderateScale(15), flex: 1 }}>

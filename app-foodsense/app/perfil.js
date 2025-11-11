@@ -155,68 +155,66 @@ export default function Perfil() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-        <LinearGradient colors={['#4ade80', '#14b8a6']} style={{ flex: 1 }}>
-            {/* Componente Header */}
-            <Header />
+      <LinearGradient colors={['#4ade80', '#14b8a6']} style={{ flex: 1 }}>
+          {/* Componente Header */}
+          <Header />
 
-            {/* Botão Voltar Personalizado */}
-            <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-                <Ionicons name="arrow-back" size={moderateScale(24)} color="white" 
-                />
-            </TouchableOpacity>
+          {/* Botão Voltar Personalizado */}
+          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+              <Ionicons name="arrow-back" size={moderateScale(24)} color="white" 
+              />
+          </TouchableOpacity>
 
-            <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
-                <Text style={styles.title}>Meu Perfil</Text>
-                
-                {/* Texto Explicativo */}
-                <Text style={styles.explanatoryText}>
-                    Visualize e edite suas informações pessoais e restrições alimentares.
-                </Text>
+          <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+              <Text style={styles.title}>Meu Perfil</Text>
+              
+              {/* Texto Explicativo */}
+              <Text style={styles.explanatoryText}>
+                  Visualize e edite suas informações pessoais e restrições alimentares.
+              </Text>
 
-                {loading ? <Text style={{color: 'white'}}>Carregando...</Text> : (
-                    <View style={styles.formContainer}>
-                        {/* Nome */}
-                        <Text style={styles.inputLabel}>Nome</Text>
-                        <TextInput style={styles.input} placeholder="Seu nome" value={nome} onChangeText={setNome} />
-                        
-                        {/* Idade */}
-                        <Text style={styles.inputLabel}>Idade</Text>
-                        <TextInput style={styles.input} placeholder="Ex: 30" value={idade} onChangeText={setIdade} keyboardType="numeric" />
-                        
-                        {/* Peso */}
-                        <Text style={styles.inputLabel}>Peso (kg)</Text>
-                        <TextInput style={styles.input} placeholder="Ex: 70.5" value={peso} onChangeText={setPeso} keyboardType="decimal-pad" />
-                        
-                        {/* Altura */}
-                        <Text style={styles.inputLabel}>Altura (cm)</Text>
-                        <TextInput style={styles.input} placeholder="Ex: 175" value={altura} onChangeText={setAltura} keyboardType="numeric" />
-                        
-                        {/* Dias de Exercício */}
-                        <Text style={styles.inputLabel}>Dias de exercício/semana</Text>
-                        <TextInput style={styles.input} placeholder="Ex: 3" value={exercicios} onChangeText={setExercicios} keyboardType="numeric" />
+              {loading ? <Text style={{color: 'white'}}>Carregando...</Text> : (
+                  <View style={styles.formContainer}>
+                      {/* Nome */}
+                      <Text style={styles.inputLabel}>Nome</Text>
+                      <TextInput style={styles.input} placeholder="Seu nome" value={nome} onChangeText={setNome} />
+                      
+                      {/* Idade */}
+                      <Text style={styles.inputLabel}>Idade</Text>
+                      <TextInput style={styles.input} placeholder="Ex: 30" value={idade} onChangeText={setIdade} keyboardType="numeric" />
+                      
+                      {/* Peso */}
+                      <Text style={styles.inputLabel}>Peso (kg)</Text>
+                      <TextInput style={styles.input} placeholder="Ex: 70.5" value={peso} onChangeText={setPeso} keyboardType="decimal-pad" />
+                      
+                      {/* Altura */}
+                      <Text style={styles.inputLabel}>Altura (cm)</Text>
+                      <TextInput style={styles.input} placeholder="Ex: 175" value={altura} onChangeText={setAltura} keyboardType="numeric" />
+                      
+                      {/* Dias de Exercício */}
+                      <Text style={styles.inputLabel}>Dias de exercício/semana</Text>
+                      <TextInput style={styles.input} placeholder="Ex: 3" value={exercicios} onChangeText={setExercicios} keyboardType="numeric" />
 
-                        <Text style={styles.subtitle}>Minhas Restrições Alimentares</Text>
-                        <View style={styles.restrictionsContainer}>
-                            {availableRestrictions.map(r => (
-                                <TouchableOpacity 
-                                    key={r.id} 
-                                    style={[styles.restrictionButton, selectedRestrictions.includes(r.id) && styles.restrictionSelected]}
-                                    onPress={() => toggleRestriction(r.id)}
-                                >
-                                    <Text style={[styles.restrictionText, selectedRestrictions.includes(r.id) && styles.restrictionTextSelected]}>{r.nome}</Text>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
-                        <View style={{alignItems: 'center', marginTop: verticalScale(20)}}>
-                            <ContinuarButton onPress={handleUpdateProfile} text="Salvar Alterações" />
-                            <VoltarButton onPress={handleLogout} text="Sair (Logout)" />
-                        </View>
-                    </View>
-                )}
-            </ScrollView>
-        </LinearGradient>
-    </SafeAreaView>
+                      <Text style={styles.subtitle}>Minhas Restrições Alimentares</Text>
+                      <View style={styles.restrictionsContainer}>
+                          {availableRestrictions.map(r => (
+                              <TouchableOpacity 
+                                  key={r.id} 
+                                  style={[styles.restrictionButton, selectedRestrictions.includes(r.id) && styles.restrictionSelected]}
+                                  onPress={() => toggleRestriction(r.id)}
+                              >
+                                  <Text style={[styles.restrictionText, selectedRestrictions.includes(r.id) && styles.restrictionTextSelected]}>{r.nome}</Text>
+                              </TouchableOpacity>
+                          ))}
+                      </View>
+                      <View style={{alignItems: 'center', marginTop: verticalScale(20)}}>
+                          <ContinuarButton onPress={handleUpdateProfile} text="Salvar Alterações" />
+                          <VoltarButton onPress={handleLogout} text="Sair (Logout)" />
+                      </View>
+                  </View>
+              )}
+          </ScrollView>
+      </LinearGradient>
   );
 }
 

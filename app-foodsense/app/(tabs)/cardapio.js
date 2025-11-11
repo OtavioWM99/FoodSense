@@ -47,12 +47,12 @@ export default function CardapioScreen() {
             <Text
               style = {{
                 fontSize: moderateScale(18.5),
-                marginTop: verticalScale(25),
+                marginTop: verticalScale(18),
                 fontFamily: 'Poppins-Medium',
                 textAlign: 'center',
                 color: 'white',
               }}>
-              Seu cardápio personalizado
+              Seus cardápios personalizados
             </Text>
 
             {/* Grade de botões */}
