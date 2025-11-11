@@ -253,9 +253,37 @@ export default function Home() {
     <LinearGradient colors={['#4ade80', '#14b8a6']} style={{ flex: 1 }}>
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Text style={{ fontFamily: 'Poppins-Bold', color: 'white', textAlign: 'center', fontSize: moderateScale(26), marginTop: verticalScale(20), marginBottom: verticalScale(30) }}>
+          <Text style={{ fontFamily: 'Poppins-Bold', color: 'white', textAlign: 'center', fontSize: moderateScale(26), marginTop: verticalScale(20), marginBottom: verticalScale(20) }}>
             Olá, {profile?.nome || 'Usuário'}
           </Text>
+
+          <TouchableOpacity
+            style={[
+              shadowStyle.shadow,
+              {
+                backgroundColor: '#D9D9D9', // Darker green/teal
+                marginHorizontal: scale(20),
+                paddingVertical: verticalScale(15),
+                borderRadius: moderateScale(15),
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginBottom: verticalScale(30), // Space below
+              }
+            ]}
+            activeOpacity={0.7}
+            onPress={() => router.push('/assistente')}
+          >
+            <Ionicons name="logo-ionitron" size={moderateScale(40)} color="black" />
+            <Text style={{
+              fontSize: moderateScale(15),
+              marginTop: verticalScale(10),
+              fontFamily: 'Poppins-SemiBold',
+              color: 'black',
+              textAlign: 'center',
+            }}>
+              Crie cardápios e receitas com nossa assistente virtual
+            </Text>
+          </TouchableOpacity>
 
           <View style={{ marginBottom: verticalScale(20), flexDirection: 'row', justifyContent: 'space-evenly' }}>
             <TouchableOpacity style={[shadowStyle.shadow, { backgroundColor: '#D9D9D9', width: scale(140), height: verticalScale(120), borderRadius: moderateScale(15), justifyContent: 'center', alignItems: 'center' }]} activeOpacity={0.7} onPress={() => router.push('/cardapio')}>
