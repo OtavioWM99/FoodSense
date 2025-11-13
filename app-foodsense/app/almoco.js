@@ -9,29 +9,36 @@ import { Ionicons } from '@expo/vector-icons';
 import NovoCardapioButton from '../src/components/NovoCardapioButton';
 import { supabase } from "../src/lib/supabase";
 import { useEffect, useState } from "react";
+import { useAuth } from "../src/providers/AuthProvider";
 
 export default function Almoco() {
     const router = useRouter();
     const [refeicoes, setRefeicoes] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { session } = useAuth();
 
     useEffect(() => {
-        const fetchCardapios = async () => {
-            const { data, error } = await supabase
-                .from('cardapios_salvos')
-                .select('*')
-                .eq('tipo', 'almoco');
+        if (session) {
+            const fetchCardapios = async () => {
+                setLoading(true);
+                const { data, error } = await supabase
+                    .from('cardapios_salvos')
+                    .select('*')
+                    .eq('usuario_id', session.user.id)
+                    .eq('tipo', 'almoco');
 
-            if (error) {
-                console.error('Erro ao buscar cardápios:', error);
-            } else {
-                setRefeicoes(data);
-            }
-            setLoading(false);
-        };
+                if (error) {
+                    console.error('Erro ao buscar cardápios:', error);
+                    Alert.alert('Erro', 'Ocorreu um erro ao buscar seus cardápios.');
+                } else {
+                    setRefeicoes(data);
+                }
+                setLoading(false);
+            };
 
-        fetchCardapios();
-    }, []);
+            fetchCardapios();
+        }
+    }, [session]);
 
     const handleDelete = (itemId) => {
         Alert.alert(

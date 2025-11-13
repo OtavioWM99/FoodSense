@@ -9,29 +9,36 @@ import { Ionicons } from '@expo/vector-icons';
 import NovoCardapioButton from '../src/components/NovoCardapioButton';
 import { supabase } from "../src/lib/supabase";
 import { useEffect, useState } from "react";
+import { useAuth } from "../src/providers/AuthProvider";
 
 export default function ReceitasVeganas() {
     const router = useRouter();
     const [receitas, setReceitas] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { session } = useAuth();
 
     useEffect(() => {
-        const fetchReceitas = async () => {
-            const { data, error } = await supabase
-                .from('receitas_salvas')
-                .select('*')
-                .eq('tipo', 'vegana');
+        if (session) {
+            const fetchReceitas = async () => {
+                setLoading(true);
+                const { data, error } = await supabase
+                    .from('receitas_salvas')
+                    .select('*')
+                    .eq('usuario_id', session.user.id)
+                    .eq('tipo', 'vegana');
 
-            if (error) {
-                console.error('Erro ao buscar receitas:', error);
-            } else {
-                setReceitas(data);
-            }
-            setLoading(false);
-        };
+                if (error) {
+                    console.error('Erro ao buscar receitas:', error);
+                    Alert.alert('Erro', 'Ocorreu um erro ao buscar suas receitas.');
+                } else {
+                    setReceitas(data);
+                }
+                setLoading(false);
+            };
 
-        fetchReceitas();
-    }, []);
+            fetchReceitas();
+        }
+    }, [session]);
 
     const handleDelete = (itemId) => {
         Alert.alert(
