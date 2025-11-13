@@ -8,25 +8,17 @@ import { Ionicons } from '@expo/vector-icons';
 import { useState } from "react";
 import { shadowStyle } from "../src/components/Shadow";
 import { useAuth } from "../src/providers/AuthProvider";
-
-const initialMessages = [
-    {
-        id: 1,
-        text: 'Olá! Sou sua assistente virtual. Estou aqui para ajudar você a criar refeições deliciosas e seguras para suas necessidades.\n\nO que você gostaria de fazer?\n\n1️⃣ Criar um cardápio completo para uma refeição.\n2️⃣ Gerar uma receita única.\n\nOBS: Digite apenas o número da opção desejada',
-        sender: 'assistant'
-    },
-];
+import { useChat } from "../src/providers/ChatProvider"; // Import the useChat hook
 
 export default function Assistente() {
     const router = useRouter();
     const { session } = useAuth();
-    const [messages, setMessages] = useState(initialMessages);
+    const { conversationState, setConversationState } = useChat(); // Use the global chat state
+    const { messages, currentConversationState, lastGeneratedContent } = conversationState;
+
+    // These states are transient and belong to the component
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    // Variável de estado para controlar a conversa
-    const [conversationState, setConversationState] = useState('start');
-    // Variável para gerenciar o conteúdo gerado recebido pela IA
-    const [lastGeneratedContent, setLastGeneratedContent] = useState(null);
 
     const handleSend = async () => {
         if (input.trim() === '' || isLoading) {
@@ -38,7 +30,13 @@ export default function Assistente() {
             text: input,
             sender: 'user'
         };
-        setMessages(prevMessages => [...prevMessages, userMessage]);
+        
+        // Update global state
+        setConversationState(prevState => ({
+            ...prevState,
+            messages: [...prevState.messages, userMessage]
+        }));
+
         const currentInput = input;
         setInput('');
         setIsLoading(true);
@@ -56,8 +54,7 @@ export default function Assistente() {
                 body: JSON.stringify({
                     userId: session.user.id,
                     userMessage: currentInput,
-                    // Enviando a variável de estado, que mudará a cada passo
-                    conversationState: conversationState,
+                    conversationState: currentConversationState, // Send the correct state
                     generatedContent: lastGeneratedContent,
                 }),
             });
@@ -67,25 +64,22 @@ export default function Assistente() {
                 throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
             }
 
-            // A resposta do n8n agora é um JSON
             const responseData = await response.json();
 
             if (responseData.aiResponse) {
                 const assistantMessage = {
-                    id: messages.length + 2,
+                    id: messages.length + 2, // This might have a race condition, better to use length from previous state
                     text: responseData.aiResponse,
                     sender: 'assistant'
                 };
-                setMessages(prevMessages => [...prevMessages, assistantMessage]);
                 
-                // Atualizando o estado da conversa com o que o n8n mandou
-                if (responseData.conversationState) {
-                    setConversationState(responseData.conversationState);
-                }
-
-                if (responseData.generatedContent) {
-                    setLastGeneratedContent(responseData.generatedContent);
-                }
+                // Update global state with all new information from n8n
+                setConversationState(prevState => ({
+                    ...prevState,
+                    messages: [...prevState.messages, assistantMessage],
+                    currentConversationState: responseData.conversationState || prevState.currentConversationState,
+                    lastGeneratedContent: responseData.generatedContent || prevState.lastGeneratedContent,
+                }));
 
             } else {
                 throw new Error("A IA retornou uma resposta inválida.");
@@ -98,7 +92,10 @@ export default function Assistente() {
                 text: `Ocorreu um erro ao enviar sua mensagem. Por favor, tente novamente. (${error.message})`,
                 sender: 'assistant'
             };
-            setMessages(prevMessages => [...prevMessages, errorMessage]);
+            setConversationState(prevState => ({
+                ...prevState,
+                messages: [...prevState.messages, errorMessage]
+            }));
         } finally {
             setIsLoading(false);
         }

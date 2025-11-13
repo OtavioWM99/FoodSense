@@ -1,5 +1,6 @@
 import { Stack, useRouter, useSegments } from "expo-router";
 import { AuthProvider, useAuth } from "../src/providers/AuthProvider";
+import { ChatProvider } from "../src/providers/ChatProvider";
 import { useEffect } from "react";
 import { View } from "react-native";
 
@@ -46,7 +47,9 @@ const InitialLayout = () => {
 const RootLayout = () => {
   return (
     <AuthProvider>
-      <InitialLayout />
+      <ChatProvider>
+        <InitialLayout />
+      </ChatProvider>
     </AuthProvider>
   );
 };
