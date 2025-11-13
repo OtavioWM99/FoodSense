@@ -53,6 +53,7 @@ export default function ReceitasScreen() {
                 { label: 'Sem lactose', onPress: () => router.push('/receitasSemLactose'), image: require('../../assets/icons/lactose-free.png'), width: scale(90), height: scale(90), labelMarginBottom: moderateScale(10), labelMarginTop: moderateScale(-6) },
                 { label: 'Veganas', onPress: () => router.push('/receitasVeganas'), image: require('../../assets/icons/vegan.png' ), width: scale(65), height: scale(65), labelMarginBottom: moderateScale(-4), labelMarginTop: moderateScale(6) },
                 { label: 'Baixo teor de frutose', onPress: () => router.push('/receitasBaixoTeorFrutose'), image: require('../../assets/icons/fructose-low.png'), width: scale(75), height: scale(75), labelMarginBottom: moderateScale(2), labelMarginTop: moderateScale(2) },
+                { label: 'Outras', onPress: () => router.push('/outrasReceitas'), icon: 'book-outline', labelMarginBottom: moderateScale(2), labelMarginTop: moderateScale(2) },
               ].map((item, index) => (
                 <TouchableOpacity style={[
                     shadowStyle.shadow,
@@ -70,14 +71,18 @@ export default function ReceitasScreen() {
                   activeOpacity={0.7}
                   onPress={item.onPress}
                 >
-                  <Image
-                      source={item.image}
-                      style={{
-                        width: item.width,
-                        height: item.height,
-                        resizeMode: 'contain',
-                      }}
-                  />
+                  {item.image ? (
+                    <Image
+                        source={item.image}
+                        style={{
+                          width: item.width,
+                          height: item.height,
+                          resizeMode: 'contain',
+                        }}
+                    />
+                  ) : (
+                    <Ionicons name={item.icon} color="#000" style={{ fontSize: moderateScale(50) }} />
+                  )}
                   <Text style={{ 
                       fontSize: moderateScale(12.5),
                       fontFamily: 'Poppins-Medium',
