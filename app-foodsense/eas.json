@@ -6,14 +6,17 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "projectPath": "app-foodsense"
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "projectPath": "app-foodsense"
     },
     "production": {
       "autoIncrement": true,
       "developmentClient": false,
+      "projectPath": "app-foodsense",
       "android": {
         "buildType": "apk"
       }
