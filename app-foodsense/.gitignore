@@ -56,6 +56,7 @@ imagens-gemini-cli/
 # Logs
 raw.txt
 functionsbd.txt
+log.txt
 
 # Supabase temp files
 supabase/.temp/

@@ -2,7 +2,7 @@
   "expo": {
     "name": "FoodSense",
     "slug": "app-foodsense",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "orientation": "portrait",
     "scheme": [
       "app-foodsense-scheme"
@@ -11,8 +11,9 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "cover"
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#4df194"
     },
     "ios": {
       "supportsTablet": true
@@ -25,9 +26,9 @@
       "edgeToEdgeEnabled": true,
       "package": "com.anonymous.appfoodsense",
       "splash": {
-        "image": "./assets/splash.png",
-        "resizeMode": "cover",
-        "backgroundColor": "#ffffff"
+        "image": "./assets/icon.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#4df194"
       }
     },
     "web": {
@@ -47,6 +48,15 @@
             "./assets/fonts/Poppins-ExtraBold.ttf",
             "./assets/fonts/Poppins-Black.ttf"
           ]
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#4df194",
+          "image": "./assets/icon.png",
+          "resizeMode": "contain",
+          "imageWidth": 200
         }
       ]
     ],
